@@ -13,18 +13,18 @@ public class User extends AuditModel {
     private Long id;
 
     @OneToOne
-    public Profile profile;
+    private Profile profile;
 
-    public String email;
+    private String email;
 
-    public String password;
+    private String password;
 
-    public int creditCardId;
+    private int creditCardId;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "credit_card_id", nullable = false)
     @JsonIgnore
-    public CreditCard creditCard;
+    private CreditCard creditCard;
 
     public User(Profile profile, String email, String password, int creditCardId, CreditCard creditCard) {
         this.profile = profile;

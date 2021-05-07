@@ -15,7 +15,7 @@ public class Request extends AuditModel {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private _Profile profile;
+    private Profile profile;
 
     @NotNull
     @Size(max = 100)
@@ -38,7 +38,7 @@ public class Request extends AuditModel {
         return this;
     }
 
-    public _Profile getProfile() {
+    public Profile getProfile() {
         return profile;
     }
 

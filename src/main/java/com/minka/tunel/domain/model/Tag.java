@@ -20,11 +20,11 @@ public class Tag extends AuditModel {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE},
             mappedBy = "tags")
-    private List<_Profile> profiles;
+    private List<Profile> profiles;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE},
             mappedBy = "tags")
-    private List<_Startup> startups;
+    private List<Startup> startups;
 
     public Tag() {
     }
@@ -53,11 +53,11 @@ public class Tag extends AuditModel {
     }
 
 
-    public List<_Profile> getProfiles() {
+    public List<Profile> getProfiles() {
         return profiles;
     }
 
-    public List<_Startup> getStartups() {
+    public List<Startup> getStartups() {
         return startups;
     }
 

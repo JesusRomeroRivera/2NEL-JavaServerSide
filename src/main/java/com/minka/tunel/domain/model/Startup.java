@@ -16,7 +16,7 @@ public class Startup extends AuditModel {
 
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private _Enterprise enterprise;
+    private Enterprise enterprise;
 
 
     @NotNull
@@ -31,7 +31,7 @@ public class Startup extends AuditModel {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE},
             mappedBy = "startups")
-    private List<_StartupTags> startupTags;
+    private List<Tag> startupTags;
 
     public Startup() {
     }
@@ -50,7 +50,7 @@ public class Startup extends AuditModel {
     }
 
 
-    public Startup setEnterprise(_Enterprise enterprise) {
+    public Startup setEnterprise(Enterprise enterprise) {
         this.enterprise = enterprise;
         return this;
     }
@@ -74,7 +74,7 @@ public class Startup extends AuditModel {
     }
 
 
-    public Startup setStartupTags(List<_StartupTags> startupTags) {
+    public Startup setStartupTags(List<Tag> startupTags) {
         this.startupTags = startupTags;
         return this;
     }
