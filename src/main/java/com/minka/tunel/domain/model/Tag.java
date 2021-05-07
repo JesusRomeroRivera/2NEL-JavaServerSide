@@ -52,6 +52,7 @@ public class Tag extends AuditModel {
         return this;
     }
 
+
     public List<_Profile> getProfiles() {
         return profiles;
     }
