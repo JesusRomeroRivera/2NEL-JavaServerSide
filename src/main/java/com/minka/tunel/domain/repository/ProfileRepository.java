@@ -1,4 +1,7 @@
 package com.minka.tunel.domain.repository;
 
-public interface ProfileRepository {
+import com.minka.tunel.domain.model.Profile;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ProfileRepository extends JpaRepository<Profile, Long> {
 }
