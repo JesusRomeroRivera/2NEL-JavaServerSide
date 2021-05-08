@@ -11,7 +11,6 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-@Repository
 public interface EnterpriseRepository extends JpaRepository<Enterprise, Long> {
     @Query(value = "SELECT * FROM enterprises e WHERE e.entrepreneur = :entrepreneur",nativeQuery = true)
     Optional<Enterprise> getEnterpriseByEntrepreneur(@Param("entrepreneur") String entrepreneur);
