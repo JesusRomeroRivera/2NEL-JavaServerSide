@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@DiscriminatorValue("entrepeneur")
+@DiscriminatorValue("entrepreneur")
 public class Entrepreneur extends Profile {
     @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Enterprise enterprise;

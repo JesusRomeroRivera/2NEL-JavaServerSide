@@ -1,5 +1,6 @@
 package com.minka.tunel.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
@@ -15,7 +16,9 @@ import static javax.persistence.InheritanceType.SINGLE_TABLE;
 @Inheritance(strategy=SINGLE_TABLE)
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING,
         name = "profile_type")
-@MappedSuperclass
+//@MappedSuperclass
+@JsonIgnoreProperties(value = {"id", "user", "eMembershipType", "firstName", "lastName", "portfolio", "profileTags", "requests"}, allowGetters = true)
+
 public class Profile extends AuditModel {
 
     @Id
@@ -43,12 +46,10 @@ public class Profile extends AuditModel {
     @NaturalId
     private String portfolio;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE},
-            mappedBy = "profiles")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Tag> profileTags;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE},
-            mappedBy = "profiles")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Request> requests;
 
     public Profile() {

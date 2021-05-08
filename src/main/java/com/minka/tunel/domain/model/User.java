@@ -19,18 +19,19 @@ public class User extends AuditModel {
 
     private String password;
 
-    private int creditCardId;
-
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "credit_card_id", nullable = false)
     @JsonIgnore
     private CreditCard creditCard;
 
+    public User() {
+
+    }
+
     public User(Profile profile, String email, String password, int creditCardId, CreditCard creditCard) {
         this.profile = profile;
         this.email = email;
         this.password = password;
-        this.creditCardId = creditCardId;
         this.creditCard = creditCard;
     }
 
@@ -67,15 +68,6 @@ public class User extends AuditModel {
 
     public User setPassword(String password) {
         this.password = password;
-        return this;
-    }
-
-    public int getCreditCardId() {
-        return creditCardId;
-    }
-
-    public User setCreditCardId(int creditCardId) {
-        this.creditCardId = creditCardId;
         return this;
     }
 
