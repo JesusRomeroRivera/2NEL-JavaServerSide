@@ -1,11 +1,8 @@
 package com.minka.tunel.controller;
 
-import com.minka.tunel.domain.model.CreditCard;
 import com.minka.tunel.domain.model.Entrepreneur;
 import com.minka.tunel.domain.service.EntrepreneurService;
-import com.minka.tunel.resource.CreditCardResource;
 import com.minka.tunel.resource.EntrepreneurResource;
-import com.minka.tunel.resource.SaveCreditCardResource;
 import com.minka.tunel.resource.SaveEntrepreneurResource;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
