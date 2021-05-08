@@ -10,6 +10,10 @@ import javax.validation.constraints.Size;
 @Table(name = "credit_cards")
 public class CreditCard extends AuditModel {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private User user;
 
