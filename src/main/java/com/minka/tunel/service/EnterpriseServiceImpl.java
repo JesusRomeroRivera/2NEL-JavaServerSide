@@ -28,12 +28,12 @@ public class EnterpriseServiceImpl implements EnterpriseService {
     }
 
     @Override
-    public Enterprise createTag(Enterprise enterprise) {
+    public Enterprise createEnterprise(Enterprise enterprise) {
         return enterpriseRepository.save(enterprise);
     }
 
     @Override
-    public Enterprise updateTag(Long enterpriseId, Enterprise enterprise) {
+    public Enterprise updateEnterprise(Long enterpriseId, Enterprise enterprise) {
         return enterpriseRepository.findById(enterpriseId)
                 .map(enterprise1 -> {
                     enterprise1.setName(enterprise.getName());
@@ -46,7 +46,7 @@ public class EnterpriseServiceImpl implements EnterpriseService {
     }
 
     @Override
-    public ResponseEntity<?> deleteTag(Long enterpriseId) {
+    public ResponseEntity<?> deleteEnterprise(Long enterpriseId) {
         return enterpriseRepository.findById(enterpriseId)
                 .map(tag -> {
                     enterpriseRepository.delete(tag);
