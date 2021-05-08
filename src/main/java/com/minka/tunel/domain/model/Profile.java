@@ -45,7 +45,7 @@ public class Profile extends AuditModel {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE},
             mappedBy = "profiles")
-    private List<Profile> profileTags;
+    private List<Tag> profileTags;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE},
             mappedBy = "profiles")
@@ -104,7 +104,7 @@ public class Profile extends AuditModel {
         return this;
     }
 
-    public List<Profile> getProfileTags() {
+    public List<Tag> getProfileTags() {
         return profileTags;
     }
 

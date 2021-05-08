@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface TagService {
     Page<Tag> getAllTags(Pageable pageable);
-    Page<Tag> getAllTagsByPostId(Long postId, Pageable pageable);
+    Page<Tag> getAllTagsByUserId(Long userId, Pageable pageable);
     Tag getTagById(Long tagId);
     Tag createTag(Tag tag);
     Tag updateTag(Long tagId, Tag tagDetails);
