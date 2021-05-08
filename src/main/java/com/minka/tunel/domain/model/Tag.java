@@ -31,7 +31,6 @@ public class Tag extends AuditModel {
         this.name = name;
     }
 
-
     public Long getId() {
         return id;
     }
@@ -50,7 +49,6 @@ public class Tag extends AuditModel {
         return this;
     }
 
-
     public List<Profile> getProfiles() {
         return profiles;
     }
@@ -58,5 +56,4 @@ public class Tag extends AuditModel {
     public List<Startup> getStartups() {
         return startups;
     }
-
 }
