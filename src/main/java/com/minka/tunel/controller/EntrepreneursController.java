@@ -1,10 +1,22 @@
 package com.minka.tunel.controller;
 
+import com.minka.tunel.domain.model.CreditCard;
+import com.minka.tunel.domain.model.Entrepreneur;
 import com.minka.tunel.domain.service.EntrepreneurService;
+import com.minka.tunel.resource.CreditCardResource;
+import com.minka.tunel.resource.EntrepreneurResource;
+import com.minka.tunel.resource.SaveCreditCardResource;
+import com.minka.tunel.resource.SaveEntrepreneurResource;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -13,4 +25,40 @@ public class EntrepreneursController {
     private ModelMapper mapper;
     @Autowired
     private EntrepreneurService entrepreneurService;
+
+    @GetMapping("/entrepreneurs")
+    public Page<EntrepreneurResource> getAllEntrepreneurs(Pageable pageable) {
+        List<EntrepreneurResource> entrepreneurs = entrepreneurService.getAllEntrepreneurs(pageable)
+                .getContent().stream().map(this::convertToResource)
+                .collect(Collectors.toList());
+        int entrepreneursCount = entrepreneurs.size();
+        return new PageImpl<>(entrepreneurs, pageable, entrepreneursCount);
+    }
+
+    @GetMapping("/entrepreneurs/{userId}")
+    public EntrepreneurResource getEntrepreneurById(
+            @PathVariable Long userId) {
+        return convertToResource(entrepreneurService.getEntrepreneurById(userId));
+    }
+
+    @PostMapping("/entrepreneurs")
+    public EntrepreneurResource createEntrepreneur(
+            @Valid @RequestBody SaveEntrepreneurResource resource){
+        return convertToResource(entrepreneurService.createEntrepreneur(convertToEntity(resource)));
+    }
+
+    @PutMapping("/entrepreneurs/{userId}")
+    public EntrepreneurResource updateEntrepreneur(
+            @PathVariable Long userId,
+            @Valid @RequestBody SaveEntrepreneurResource resource) {
+        return convertToResource(entrepreneurService.updateEntrepreneur(userId, convertToEntity(resource)));
+    }
+
+    private Entrepreneur convertToEntity(SaveEntrepreneurResource resource) {
+        return mapper.map(resource, Entrepreneur.class);
+    }
+
+    private EntrepreneurResource convertToResource(Entrepreneur entity) {
+        return mapper.map(entity, EntrepreneurResource.class);
+    }
 }
