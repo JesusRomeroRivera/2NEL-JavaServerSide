@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -52,6 +53,11 @@ public class EnterprisesController {
             @PathVariable Long enterpriseId,
             @Valid @RequestBody SaveEnterpriseResource resource) {
         return convertToResource(enterpriseService.updateEnterprise(enterpriseId, convertToEntity(resource)));
+    }
+
+    @DeleteMapping("/enterprises/{enterpriseId}")
+    public ResponseEntity<?> deleteEnterprise(@PathVariable Long enterpriseId) {
+        return enterpriseService.deleteEnterprise(enterpriseId);
     }
 
     private Enterprise convertToEntity(SaveEnterpriseResource resource) {

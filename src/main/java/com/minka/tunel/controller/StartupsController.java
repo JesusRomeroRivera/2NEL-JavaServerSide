@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -36,21 +37,21 @@ public class StartupsController {
         return new PageImpl<>(startups, pageable, startupsCount);
     }
 
-    @GetMapping("/enterprises/{userId}/startups")
+    @GetMapping("/enterprises/{startupId}/startups")
     public Page<StartupResource> getAllStartupsByUserId(
-            @PathVariable Long userId,
+            @PathVariable Long startupId,
             Pageable pageable) {
-        List<StartupResource> startups = startupService.getAllStartupsByUserId(userId, pageable)
+        List<StartupResource> startups = startupService.getAllStartupsByUserId(startupId, pageable)
                 .getContent().stream().map(this::convertToResource)
                 .collect(Collectors.toList());
         int startupsCount = startups.size();
         return new PageImpl<>(startups, pageable, startupsCount);
     }
 
-    @GetMapping("/startups/{userId}")
+    @GetMapping("/startups/{startupId}")
     public StartupResource getStartupById(
-            @PathVariable Long userId) {
-        return convertToResource(startupService.getStartupById(userId));
+            @PathVariable Long startupId) {
+        return convertToResource(startupService.getStartupById(startupId));
     }
 
     @PostMapping("/startups")
@@ -59,11 +60,16 @@ public class StartupsController {
         return convertToResource(startupService.createStartup(convertToEntity(resource)));
     }
 
-    @PutMapping("/startups/{userId}")
+    @PutMapping("/startups/{startupId}")
     public StartupResource updateStartup(
-            @PathVariable Long userId,
+            @PathVariable Long startupId,
             @Valid @RequestBody SaveStartupResource resource) {
-        return convertToResource(startupService.updateStartup(userId, convertToEntity(resource)));
+        return convertToResource(startupService.updateStartup(startupId, convertToEntity(resource)));
+    }
+
+    @DeleteMapping("/startups/{startupId}")
+    public ResponseEntity<?> deleteStartup(@PathVariable Long startupId) {
+        return startupService.deleteStartup(startupId);
     }
 
     private Startup convertToEntity(SaveStartupResource resource) {

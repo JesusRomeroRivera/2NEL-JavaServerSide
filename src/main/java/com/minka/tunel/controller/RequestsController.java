@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -35,7 +36,7 @@ public class RequestsController {
         return new PageImpl<>(requests, pageable, requestsCount);
     }
 
-    @GetMapping("/profiles/{userId}/tags")
+    @GetMapping("/profiles/{userId}/requests")
     public Page<RequestResource> getAllRequestsByUserId(
             @PathVariable Long userId,
             Pageable pageable) {
@@ -46,10 +47,10 @@ public class RequestsController {
         return new PageImpl<>(requests, pageable, requestsCount);
     }
 
-    @GetMapping("/requests/{userId}")
+    @GetMapping("/requests/{requestId}")
     public RequestResource getRequestById(
-            @PathVariable Long userId) {
-        return convertToResource(requestService.getRequestById(userId));
+            @PathVariable Long requestId) {
+        return convertToResource(requestService.getRequestById(requestId));
     }
 
     @PostMapping("/requests")
@@ -58,11 +59,16 @@ public class RequestsController {
         return convertToResource(requestService.createRequest(convertToEntity(resource)));
     }
 
-    @PutMapping("/requests/{userId}")
+    @PutMapping("/requests/{requestId}")
     public RequestResource updateRequest(
-            @PathVariable Long userId,
+            @PathVariable Long requestId,
             @Valid @RequestBody SaveRequestResource resource) {
-        return convertToResource(requestService.updateRequest(userId, convertToEntity(resource)));
+        return convertToResource(requestService.updateRequest(requestId, convertToEntity(resource)));
+    }
+
+    @DeleteMapping("/requests/{requestId}")
+    public ResponseEntity<?> deleteRequest(@PathVariable Long requestId) {
+        return requestService.deleteRequest(requestId);
     }
 
     private Request convertToEntity(SaveRequestResource resource) {

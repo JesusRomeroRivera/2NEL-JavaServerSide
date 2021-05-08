@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -33,11 +34,11 @@ public class TagsController {
         return new PageImpl<>(tags, pageable, tagsCount);
     }
 
-    @GetMapping("/posts/{postId}/tags")
+    @GetMapping("/profiles/{userId}/tags")
     public Page<TagResource> getAllTagsByUserId(
-            @PathVariable Long postId,
+            @PathVariable Long userId,
             Pageable pageable) {
-        List<TagResource> tags = tagService.getAllTagsByUserId(postId, pageable)
+        List<TagResource> tags = tagService.getAllTagsByUserId(userId, pageable)
                 .getContent().stream().map(this::convertToResource)
                 .collect(Collectors.toList());
         int tagsCount = tags.size();
@@ -61,6 +62,11 @@ public class TagsController {
             @PathVariable Long tagId,
             @Valid @RequestBody SaveTagResource resource) {
         return convertToResource(tagService.updateTag(tagId, convertToEntity(resource)));
+    }
+
+    @DeleteMapping("/tags/{tagId}")
+    public ResponseEntity<?> deleteTag(@PathVariable Long tagId) {
+        return tagService.deleteTag(tagId);
     }
 
     private Tag convertToEntity(SaveTagResource resource) {

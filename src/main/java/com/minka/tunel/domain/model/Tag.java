@@ -11,6 +11,7 @@ import java.util.List;
 @Table(name = "tags")
 public class Tag extends AuditModel {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
