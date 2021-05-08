@@ -30,8 +30,6 @@ public class Profile extends AuditModel {
     @NotNull
     private EMembershipType eMembershipType;
 
-    @NotNull
-    @Size(max = 20)
     @NaturalId
     private String firstName;
 

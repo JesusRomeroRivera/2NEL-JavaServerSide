@@ -1,4 +1,6 @@
 package com.minka.tunel.resource;
 
-public class EntrepreneurResource {
+import com.minka.tunel.domain.model.Profile;
+
+public class EntrepreneurResource extends Profile {
 }
