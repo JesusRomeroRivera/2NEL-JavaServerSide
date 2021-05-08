@@ -36,6 +36,9 @@ public class CreditCard extends AuditModel {
     @NaturalId
     private String expYear;
 
+    public CreditCard(){
+    }
+
     public CreditCard(@NotNull @Size(min = 16) @Size(max = 16) String cardNumber, @NotNull @Size(min = 3) @Size(max = 4) String cvv, @NotNull @Size(min = 1) @Size(max = 2) String expMonth, @NotNull @Size(max = 4) String expYear) {
         this.cardNumber = cardNumber;
         this.cvv = cvv;
