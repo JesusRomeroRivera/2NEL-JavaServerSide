@@ -10,5 +10,5 @@ public interface EnterpriseService {
     Enterprise getEnterpriseById(Long enterpriseId);
     Enterprise createTag(Enterprise enterprise);
     Enterprise updateTag(Long enterpriseId, Enterprise enterprise);
-    ResponseEntity<?> deleteTag(Long tenterpriseId);
+    ResponseEntity<?> deleteTag(Long enterpriseId);
 }

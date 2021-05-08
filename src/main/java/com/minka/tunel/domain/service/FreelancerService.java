@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
-public interface FreelancerRepository {
+public interface FreelancerService {
     Page<Freelancer> getAllFreelancers(Pageable pageable);
     Freelancer getFreelancerById(Long userId);
     Freelancer createFreelancer(Freelancer freelancer);
