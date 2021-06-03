@@ -4,6 +4,10 @@ import com.minka.tunel.domain.model.Entrepreneur;
 import com.minka.tunel.domain.service.EntrepreneurService;
 import com.minka.tunel.resource.EntrepreneurResource;
 import com.minka.tunel.resource.SaveEntrepreneurResource;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +27,10 @@ public class EntrepreneursController {
     @Autowired
     private EntrepreneurService entrepreneurService;
 
+    @Operation(summary = "Get Entrepreneurs", description = "Get All Entrepreneurs", tags = {"entrepreneurs"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "All Enterprises returned", content = @Content(mediaType = "application/json"))
+    })
     @GetMapping("/entrepreneurs")
     public Page<EntrepreneurResource> getAllEntrepreneurs(Pageable pageable) {
         List<EntrepreneurResource> entrepreneurs = entrepreneurService.getAllEntrepreneurs(pageable)
