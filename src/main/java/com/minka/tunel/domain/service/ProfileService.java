@@ -11,4 +11,6 @@ public interface ProfileService {
     Profile createProfile(Profile profile);
     Profile updateProfile(Long userId, Profile profile);
     ResponseEntity<?> deleteProfile(Long userId);
+    Profile assignProfileTag(Long profileId, Long tagId);
+    Profile unassignProfileTag(Long profileId, Long tagId);
 }

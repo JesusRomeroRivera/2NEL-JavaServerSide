@@ -112,4 +112,20 @@ public class Profile extends AuditModel {
     public List<Request> getRequests() {
         return requests;
     }
+
+    public boolean isTaggedWith(Tag tag) {
+        return this.getProfileTags().contains(tag);
+    }
+
+    public Profile tagWith(Tag tag) {
+        if(!this.isTaggedWith(tag))
+            this.getProfileTags().add(tag);
+        return this;
+    }
+
+    public Profile unTagWith(Tag tag) {
+        if(this.isTaggedWith(tag))
+            this.getProfileTags().remove(tag);
+        return this;
+    }
 }

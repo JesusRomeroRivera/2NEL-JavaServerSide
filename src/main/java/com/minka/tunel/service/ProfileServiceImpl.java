@@ -1,7 +1,9 @@
 package com.minka.tunel.service;
 
 import com.minka.tunel.domain.model.Profile;
+import com.minka.tunel.domain.model.Tag;
 import com.minka.tunel.domain.repository.ProfileRepository;
+import com.minka.tunel.domain.repository.TagRepository;
 import com.minka.tunel.domain.service.ProfileService;
 import com.minka.tunel.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,9 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Autowired
     private ProfileRepository profileRepository;
+
+    @Autowired
+    private TagRepository tagRepository;
 
     @Override
     public Page<Profile> getAllProfiles(Pageable pageable) {
@@ -51,5 +56,27 @@ public class ProfileServiceImpl implements ProfileService {
                     return (ResponseEntity.ok().build());
                 })
                 .orElseThrow(() -> new ResourceNotFoundException("Profile", "Id", userId));
+    }
+
+    @Override
+    public Profile assignProfileTag(Long profileId, Long tagId) {
+        Tag tag = tagRepository.findById(tagId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Tag", "Id", tagId));
+        return profileRepository.findById(profileId).map(
+                profile -> profileRepository.save(profile.tagWith(tag)))
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Tag", "Id", tagId));
+    }
+
+    @Override
+    public Profile unassignProfileTag(Long profileId, Long tagId) {
+        Tag tag = tagRepository.findById(tagId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Tag", "Id", tagId));
+        return profileRepository.findById(profileId).map(
+                profile -> profileRepository.save(profile.unTagWith(tag)))
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Tag", "Id", tagId));
     }
 }
