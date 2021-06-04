@@ -28,7 +28,7 @@ public class CreditCardServiceImpl implements CreditCardService {
     }
 
     @Override
-    public CreditCard createCreditCard(CreditCard creditCard) {
+    public CreditCard createCreditCard(Long userId, CreditCard creditCard) {
         return creditCardRepository.save(creditCard);
     }
 

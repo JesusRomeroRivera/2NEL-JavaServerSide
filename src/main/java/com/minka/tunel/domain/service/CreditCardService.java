@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 public interface CreditCardService {
     Page<CreditCard> getAllCreditCards(Pageable pageable);
     CreditCard getCreditCardByUserId(Long userId);
-    CreditCard createCreditCard(CreditCard creditCard);
+    CreditCard createCreditCard(Long userId, CreditCard creditCard);
     CreditCard updateCreditCard(Long userId, CreditCard creditCard);
     ResponseEntity<?> deleteCreditCard(Long userId);
 }

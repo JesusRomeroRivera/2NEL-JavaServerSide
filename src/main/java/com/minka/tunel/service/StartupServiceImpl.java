@@ -24,33 +24,36 @@ public class StartupServiceImpl implements StartupService {
     private EnterpriseRepository enterpriseRepository;
 
     @Override
-    public Page<Startup> getAllStartups(Pageable pageable) {
-        return startupRepository.findAll(pageable);
-    }
-
-    @Override
-    public Page<Startup> getAllStartupsByUserId(Long userId, Pageable pageable) {
-        return enterpriseRepository.findById(userId)
+    public Page<Startup> getAllStartupsByEnterpriseId(Long enterpriseId, Pageable pageable) {
+        return enterpriseRepository.findById(enterpriseId)
                 .map(enterprise -> {
                     List<Startup> startups = enterprise.getStartups();
                     int startupsCount = startups.size();
                     return new PageImpl<>(startups, pageable, startupsCount);
                 })
-                .orElseThrow(() -> new ResourceNotFoundException("Enterprise", "Id", userId));
+                .orElseThrow(() -> new ResourceNotFoundException("Enterprise", "Id", enterpriseId));
     }
 
     @Override
-    public Startup getStartupById(Long startupId) {
+    public Startup getStartupById(Long enterpriseId, Long startupId) {
         return startupRepository.findById(startupId)
                 .orElseThrow(() -> new ResourceNotFoundException("Startup", "Id", startupId));    }
 
     @Override
-    public Startup createStartup(Startup startup) {
+    public Startup createStartup(Long enterpriseId, Startup startup) {
+        var foundEnterprise = enterpriseRepository.findById(enterpriseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Enterprise", "Id", enterpriseId));
+
+        startup.setEnterprise(foundEnterprise);
+        foundEnterprise.getStartups().add(startup);
         return startupRepository.save(startup);
     }
 
     @Override
-    public Startup updateStartup(Long startupId, Startup startup) {
+    public Startup updateStartup(Long enterpriseId, Long startupId, Startup startup) {
+        var foundEnterprise = enterpriseRepository.findById(enterpriseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Enterprise", "Id", enterpriseId));
+
         return startupRepository.findById(startupId)
                 .map(startup1 -> {
                     startup1.setName(startup.getName());
@@ -61,7 +64,17 @@ public class StartupServiceImpl implements StartupService {
     }
 
     @Override
-    public ResponseEntity<?> deleteStartup(Long startupId) {
+    public ResponseEntity<?> deleteStartup(Long enterpriseId, Long startupId) {
+        var foundEnterprise = enterpriseRepository.findById(enterpriseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Enterprise", "Id", enterpriseId));
+
+        var foundStartup = foundEnterprise.getStartups().stream()
+                .filter(startup -> startupId.equals(startup.getId()))
+                .findFirst()
+                .orElse(null);
+
+        foundEnterprise.getStartups().remove(foundStartup);
+
         return startupRepository.findById(startupId)
                 .map(tag -> {
                     startupRepository.delete(tag);
