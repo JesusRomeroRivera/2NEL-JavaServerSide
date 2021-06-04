@@ -4,6 +4,10 @@ import com.minka.tunel.domain.model.Profile;
 import com.minka.tunel.domain.service.ProfileService;
 import com.minka.tunel.resource.ProfileResource;
 import com.minka.tunel.resource.SaveProfileResource;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,13 +22,21 @@ public class ProfileTagsController {
     @Autowired
     private ProfileService profileService;
 
+    @Operation(summary = "Assign a Tag to a Profile", description = "Assign a Tag to a Profile", tags = {"profiletags"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Tag Assigned", content = @Content(mediaType = "application/json"))
+    })
     @PostMapping("/profiles/{profileId}/tags/{tagId}")
-    public ProfileResource assignPostTag(@PathVariable Long profileId, @PathVariable Long tagId) {
+    public ProfileResource assignProfileTag(@PathVariable Long profileId, @PathVariable Long tagId) {
         return convertToResource(profileService.assignProfileTag(profileId, tagId));
     }
 
+    @Operation(summary = "Unassign a Tag to a Profile", description = "Unassign a Tag to a Profile", tags = {"profiletags"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Tag Unassigned", content = @Content(mediaType = "application/json"))
+    })
     @DeleteMapping("/profiles/{profileId}/tags/{tagId}")
-    public ProfileResource unassignPostTag(@PathVariable Long profileId, @PathVariable Long tagId) {
+    public ProfileResource unassignProfileTag(@PathVariable Long profileId, @PathVariable Long tagId) {
         return convertToResource(profileService.unassignProfileTag(profileId, tagId));
     }
 

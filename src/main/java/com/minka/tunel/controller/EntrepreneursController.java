@@ -29,7 +29,7 @@ public class EntrepreneursController {
 
     @Operation(summary = "Get Entrepreneurs", description = "Get All Entrepreneurs", tags = {"entrepreneurs"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "All Enterprises returned", content = @Content(mediaType = "application/json"))
+            @ApiResponse(responseCode = "200", description = "All Entrepreneurs returned", content = @Content(mediaType = "application/json"))
     })
     @GetMapping("/entrepreneurs")
     public Page<EntrepreneurResource> getAllEntrepreneurs(Pageable pageable) {
@@ -40,18 +40,30 @@ public class EntrepreneursController {
         return new PageImpl<>(entrepreneurs, pageable, entrepreneursCount);
     }
 
+    @Operation(summary = "Get Entrepreneur by ID", description = "Get a specific Entrepreneur by its ID", tags = {"entrepreneurs"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Entrepreneur returned", content = @Content(mediaType = "application/json"))
+    })
     @GetMapping("/entrepreneurs/{userId}")
     public EntrepreneurResource getEntrepreneurById(
             @PathVariable Long userId) {
         return convertToResource(entrepreneurService.getEntrepreneurById(userId));
     }
 
+    @Operation(summary = "Create an Entrepreneur", description = "Create an Entrepreneur", tags = {"entrepreneurs"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Entrepreneur created", content = @Content(mediaType = "application/json"))
+    })
     @PostMapping("/entrepreneurs")
     public EntrepreneurResource createEntrepreneur(
             @Valid @RequestBody SaveEntrepreneurResource resource){
         return convertToResource(entrepreneurService.createEntrepreneur(convertToEntity(resource)));
     }
 
+    @Operation(summary = "Update an Entrepreneur", description = "Update an Entrepreneur", tags = {"entrepreneurs"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Entrepreneur updated", content = @Content(mediaType = "application/json"))
+    })
     @PutMapping("/entrepreneurs/{userId}")
     public EntrepreneurResource updateEntrepreneur(
             @PathVariable Long userId,

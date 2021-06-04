@@ -7,6 +7,10 @@ import com.minka.tunel.resource.EntrepreneurResource;
 import com.minka.tunel.resource.InvestorResource;
 import com.minka.tunel.resource.SaveEntrepreneurResource;
 import com.minka.tunel.resource.SaveInvestorResource;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,6 +30,10 @@ public class InvestorsController {
     @Autowired
     private InvestorService investorService;
 
+    @Operation(summary = "Get Investors", description = "Get All Investors", tags = {"investors"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "All Investors returned", content = @Content(mediaType = "application/json"))
+    })
     @GetMapping("/investors")
     public Page<InvestorResource> getAllInvestors(Pageable pageable) {
         List<InvestorResource> investors = investorService.getAllInvestors(pageable)
@@ -35,18 +43,30 @@ public class InvestorsController {
         return new PageImpl<>(investors, pageable, investorCount);
     }
 
+    @Operation(summary = "Get Investor by ID", description = "Get a specific Investor by its ID", tags = {"investors"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Investor returned", content = @Content(mediaType = "application/json"))
+    })
     @GetMapping("/investors/{userId}")
     public InvestorResource getInvestorById(
             @PathVariable Long userId) {
         return convertToResource(investorService.getInvestorById(userId));
     }
 
+    @Operation(summary = "Create an Investor", description = "Create an Investor", tags = {"investors"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Investor created", content = @Content(mediaType = "application/json"))
+    })
     @PostMapping("/investors")
     public InvestorResource createInvestor(
             @Valid @RequestBody SaveInvestorResource resource){
         return convertToResource(investorService.createInvestor(convertToEntity(resource)));
     }
 
+    @Operation(summary = "Update an Investor", description = "Update an Investor", tags = {"investors"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Investor updated", content = @Content(mediaType = "application/json"))
+    })
     @PutMapping("/investors/{userId}")
     public InvestorResource updateInvestor(
             @PathVariable Long userId,

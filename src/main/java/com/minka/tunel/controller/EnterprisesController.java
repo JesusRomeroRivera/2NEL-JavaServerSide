@@ -61,7 +61,7 @@ public class EnterprisesController {
         return convertToResource(enterpriseService.createEnterprise(convertToEntity(resource)));
     }
 
-    @Operation(summary = "Update an Enterprise", description = "Update an Farmland", tags = {"enterprises"})
+    @Operation(summary = "Update an Enterprise", description = "Update an Enterprise", tags = {"enterprises"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Enterprise updated", content = @Content(mediaType = "application/json"))
     })
