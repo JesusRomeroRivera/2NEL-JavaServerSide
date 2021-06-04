@@ -42,9 +42,9 @@ public class TagsController {
         return new PageImpl<>(tags, pageable, tagsCount);
     }
 
-    @Operation(summary = "Get Tag by UserID", description = "Get a specific Tag by UserID", tags = {"tags"})
+    @Operation(summary = "Get Tags by UserID", description = "Get All Tags by UserID", tags = {"tags"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Tag returned", content = @Content(mediaType = "application/json"))
+            @ApiResponse(responseCode = "200", description = "Tags returned", content = @Content(mediaType = "application/json"))
     })
     @GetMapping("/profiles/{userId}/tags")
     public Page<TagResource> getAllTagsByUserId(

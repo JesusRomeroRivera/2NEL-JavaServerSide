@@ -30,9 +30,9 @@ public class CreditCardsController {
     @Autowired
     private CreditCardService creditCardService;
 
-    @Operation(summary = "Get Enterprises", description = "Get All Enterprises", tags = {"enterprises"})
+    @Operation(summary = "Get Credit Cards", description = "Get All Credit Cards", tags = {"credit-cards"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "All Enterprises returned", content = @Content(mediaType = "application/json"))
+            @ApiResponse(responseCode = "200", description = "All Credit Cards returned", content = @Content(mediaType = "application/json"))
     })
     @GetMapping("/credit-cards")
     public Page<CreditCardResource> getAllCreditCards(Pageable pageable) {
@@ -43,9 +43,9 @@ public class CreditCardsController {
         return new PageImpl<>(creditCards, pageable, creditCardsCount);
     }
 
-    @Operation(summary = "Get Enterprise by ID", description = "Get a specific Enterprise by its ID", tags = {"enterprises"})
+    @Operation(summary = "Get Credit Card by ID", description = "Get a specific Credit Card by its ID", tags = {"credit-cards"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Enterprise returned", content = @Content(mediaType = "application/json"))
+            @ApiResponse(responseCode = "200", description = "Credit Card returned", content = @Content(mediaType = "application/json"))
     })
     @GetMapping("/credit-cards/{creditCardId}")
     public CreditCardResource getCreditCardById(
@@ -53,9 +53,9 @@ public class CreditCardsController {
         return convertToResource(creditCardService.getCreditCardByUserId(creditCardId));
     }
 
-    @Operation(summary = "Create an Enterprise", description = "Create an Enterprise", tags = {"enterprises"})
+    @Operation(summary = "Create a Credit Card", description = "Create a Credit Card", tags = {"credit-cards"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Enterprise created", content = @Content(mediaType = "application/json"))
+            @ApiResponse(responseCode = "200", description = "Credit Card created", content = @Content(mediaType = "application/json"))
     })
     @PostMapping("/credit-cards")
     public CreditCardResource createCreditCard(
@@ -64,9 +64,9 @@ public class CreditCardsController {
         return convertToResource(creditCardService.createCreditCard(userId, convertToEntity(resource)));
     }
 
-    @Operation(summary = "Update an Enterprise", description = "Update an Farmland", tags = {"enterprises"})
+    @Operation(summary = "Update a Credit Card", description = "Update a Credit Card", tags = {"credit-cards"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Enterprise updated", content = @Content(mediaType = "application/json"))
+            @ApiResponse(responseCode = "200", description = "Credit Card updated", content = @Content(mediaType = "application/json"))
     })
     @PutMapping("/credit-cards/{creditCardId}")
     public CreditCardResource updateCreditCard(
@@ -75,9 +75,9 @@ public class CreditCardsController {
         return convertToResource(creditCardService.updateCreditCard(creditCardId, convertToEntity(resource)));
     }
 
-    @Operation(summary = "Delete an Enterprise", description = "Delete an Enterprise", tags = {"enterprises"})
+    @Operation(summary = "Delete a Credit Card", description = "Delete a Credit Card", tags = {"credit-cards"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Enterprise deleted", content = @Content(mediaType = "application/json"))
+            @ApiResponse(responseCode = "200", description = "Credit Card deleted", content = @Content(mediaType = "application/json"))
     })
     @DeleteMapping("/credit-cards/{creditCardId}")
     public ResponseEntity<?> deleteCreditCard(@PathVariable Long creditCardId) {

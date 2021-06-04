@@ -4,6 +4,7 @@ import com.minka.tunel.domain.model.Startup;
 import com.minka.tunel.domain.service.StartupService;
 import com.minka.tunel.resource.SaveStartupResource;
 import com.minka.tunel.resource.StartupResource;
+import com.minka.tunel.resource.TagResource;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -30,13 +31,12 @@ public class EnterpriseStartupsController {
     @Autowired
     private StartupService startupService;
 
-    @Operation(summary = "Get Tree Leaves", description = "Get All Tree Leaves by ID and Pages", tags = {"tree-leaves"})
+    @Operation(summary = "Get Startups by EnterpriseID", description = "Get All Startups by EnterpriseID", tags = {"startups"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "All Tree Leaves returned", content = @Content(mediaType = "application/json"))
-
+            @ApiResponse(responseCode = "200", description = "All Startups returned", content = @Content(mediaType = "application/json"))
     })
     @GetMapping("/enterprises/{enterpriseId}/startups")
-    public Page<StartupResource> getAllLeavesByTreeId(@PathVariable Long enterpriseId, Pageable pageable) {
+    public Page<StartupResource> getAllStartupsByEnterpriseId(@PathVariable Long enterpriseId, Pageable pageable) {
         Page<Startup> startupPage = startupService.getAllStartupsByEnterpriseId(enterpriseId, pageable);
         List<StartupResource> resources = startupPage.getContent()
                 .stream()
@@ -45,47 +45,45 @@ public class EnterpriseStartupsController {
         return new PageImpl<>(resources, pageable, resources.size());
     }
 
-    @Operation(summary = "Get Leaf By ID", description = "Get Leaf by ID", tags = {"tree-leaves"})
+    @Operation(summary = "Get Startup By ID", description = "Get Startup by ID", tags = {"startups"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Leaf returned", content = @Content(mediaType = "application/json"))
+            @ApiResponse(responseCode = "200", description = "Startup returned", content = @Content(mediaType = "application/json"))
 
     })
     @GetMapping("/enterprises/{enterpriseId}/startups/{startupId}")
-    public StartupResource getLeafById(
+    public StartupResource getStartupById(
             @PathVariable Long enterpriseId,
             @PathVariable Long startupId) {
         return convertToResource(startupService.getStartupById(enterpriseId, startupId));
     }
 
-    @Operation(summary = "Create a Leaf", description = "Create a Leaf", tags = {"tree-leaves"})
+    @Operation(summary = "Create a Startup", description = "Create a Startup", tags = {"startups"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Leaf created", content = @Content(mediaType = "application/json"))
-
+            @ApiResponse(responseCode = "200", description = "Startup created", content = @Content(mediaType = "application/json"))
     })
     @PostMapping("/enterprises/{enterpriseId}/startups")
-    public StartupResource createLeaf(@PathVariable Long enterpriseId, @Valid @RequestBody SaveStartupResource resource) {
+    public StartupResource createStartup(@PathVariable Long enterpriseId, @Valid @RequestBody SaveStartupResource resource) {
         Startup startup = convertToEntity(resource);
         return convertToResource(startupService.createStartup(enterpriseId, startup));
     }
 
-    @Operation(summary = "Update a Leaf", description = "Update a Leaf", tags = {"tree-leaves"})
+    @Operation(summary = "Update a Startup", description = "Update a Startup", tags = {"startups"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Leaf updated", content = @Content(mediaType = "application/json"))
-
+            @ApiResponse(responseCode = "200", description = "Startup updated", content = @Content(mediaType = "application/json"))
     })
     @PutMapping("/enterprises/{enterpriseId}/startups/{startupId}")
-    public StartupResource updateLeaf(@PathVariable Long enterpriseId, @PathVariable Long startupId, @RequestBody SaveStartupResource resource) {
+    public StartupResource updateStartup(@PathVariable Long enterpriseId, @PathVariable Long startupId, @RequestBody SaveStartupResource resource) {
         Startup startup = convertToEntity(resource);
         return convertToResource(startupService.updateStartup(enterpriseId, startupId, startup));
     }
 
-    @Operation(summary = "Delete a Leaf", description = "Delete a Leaf", tags = {"tree-leaves"})
+    @Operation(summary = "Delete a Startup", description = "Delete a Startup", tags = {"startups"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Leaf deleted", content = @Content(mediaType = "application/json"))
+            @ApiResponse(responseCode = "200", description = "Startup deleted", content = @Content(mediaType = "application/json"))
 
     })
     @DeleteMapping("/enterprises/{enterpriseId}/startups/{startupId}")
-    public ResponseEntity<?> deleteLeaf(@PathVariable Long enterpriseId, @PathVariable Long startupId) {
+    public ResponseEntity<?> deleteStartup(@PathVariable Long enterpriseId, @PathVariable Long startupId) {
         return startupService.deleteStartup(enterpriseId, startupId);
     }
 
