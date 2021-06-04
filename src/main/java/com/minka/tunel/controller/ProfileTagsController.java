@@ -22,7 +22,7 @@ public class ProfileTagsController {
     @Autowired
     private ProfileService profileService;
 
-    @Operation(summary = "Assign a Tag to a Profile", description = "Assign a Tag to a Profile", tags = {"profiletags"})
+    @Operation(summary = "Assign a Tag to a Profile", description = "Assign a Tag to a Profile", tags = {"profile-tags"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Tag Assigned", content = @Content(mediaType = "application/json"))
     })
@@ -31,7 +31,7 @@ public class ProfileTagsController {
         return convertToResource(profileService.assignProfileTag(profileId, tagId));
     }
 
-    @Operation(summary = "Unassign a Tag to a Profile", description = "Unassign a Tag to a Profile", tags = {"profiletags"})
+    @Operation(summary = "Unassign a Tag to a Profile", description = "Unassign a Tag to a Profile", tags = {"profile-tags"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Tag Unassigned", content = @Content(mediaType = "application/json"))
     })
