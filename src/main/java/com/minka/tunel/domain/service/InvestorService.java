@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 public interface InvestorService {
     Page<Investor> getAllInvestors(Pageable pageable);
     Investor getInvestorById(Long userId);
-    Investor createInvestor(Investor investor);
+    Investor createInvestor(Long userId, Investor investor);
     Investor updateInvestor(Long userId, Investor investor);
     ResponseEntity<?> deleteInvestor(Long userId);
 }

@@ -1,4 +1,4 @@
 package com.minka.tunel.resource;
 
-public class SaveEntrepreneurResource {
+public class SaveEntrepreneurResource extends SaveProfileResource{
 }

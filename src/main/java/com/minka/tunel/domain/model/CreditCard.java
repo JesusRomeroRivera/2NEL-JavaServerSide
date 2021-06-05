@@ -1,5 +1,6 @@
 package com.minka.tunel.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
@@ -10,34 +11,47 @@ import javax.validation.constraints.Size;
 @Table(name = "credit_cards")
 public class CreditCard extends AuditModel {
 
+    public Long getId() {
+        return id;
+    }
+
+    public CreditCard setId(Long id) {
+        this.id = id;
+        return this;
+    }
+
+    public CreditCard setUser(User user) {
+        this.user = user;
+        return this;
+    }
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToOne(cascade = CascadeType.ALL)
+    @MapsId
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     @NotNull
     @Size(min = 16)
     @Size(max = 16)
-    @NaturalId
     private String cardNumber;
 
     @NotNull
     @Size(min = 3)
     @Size(max = 4)
-    @NaturalId
     private String cvv;
 
     @NotNull
     @Size(min=1)
     @Size(max=2)
-    @NaturalId
     private String expMonth;
 
     @NotNull
     @Size(max = 4)
-    @NaturalId
     private String expYear;
 
     public CreditCard(){

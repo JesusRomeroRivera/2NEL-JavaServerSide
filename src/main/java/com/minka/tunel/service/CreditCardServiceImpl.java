@@ -2,6 +2,7 @@ package com.minka.tunel.service;
 
 import com.minka.tunel.domain.model.CreditCard;
 import com.minka.tunel.domain.repository.CreditCardRepository;
+import com.minka.tunel.domain.repository.UserRepository;
 import com.minka.tunel.domain.service.CreditCardService;
 import com.minka.tunel.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class CreditCardServiceImpl implements CreditCardService {
     @Autowired
     private CreditCardRepository creditCardRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public Page<CreditCard> getAllCreditCards(Pageable pageable) {
         return creditCardRepository.findAll(pageable);
@@ -29,6 +33,11 @@ public class CreditCardServiceImpl implements CreditCardService {
 
     @Override
     public CreditCard createCreditCard(Long userId, CreditCard creditCard) {
+        var foundUser = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
+        foundUser.setCreditCard(creditCard);
+        creditCard.setId(userId);
+        creditCard.setUser(foundUser);
         return creditCardRepository.save(creditCard);
     }
 

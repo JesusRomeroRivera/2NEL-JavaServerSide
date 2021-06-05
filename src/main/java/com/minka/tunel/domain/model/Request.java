@@ -14,12 +14,12 @@ public class Request extends AuditModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable=false)
     private Profile profile;
 
     @NotNull
     @Size(max = 100)
-    @NaturalId
     private String subject;
 
     public Request() {

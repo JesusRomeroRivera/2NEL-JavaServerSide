@@ -1,5 +1,6 @@
 package com.minka.tunel.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
@@ -16,21 +17,24 @@ public class Startup extends AuditModel {
 
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     private Enterprise enterprise;
 
 
     @NotNull
     @Size(max = 100)
-    @NaturalId
     private String name;
 
     @NotNull
     @Size(max = 200)
-    @NaturalId
     private String description;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE},
-            mappedBy = "startups")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "startup_tags",
+            joinColumns = @JoinColumn(name = "startup_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tag> startupTags;
 
     public Startup() {

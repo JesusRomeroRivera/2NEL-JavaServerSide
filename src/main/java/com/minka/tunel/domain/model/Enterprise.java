@@ -11,33 +11,46 @@ import java.util.List;
 @Table(name = "enterprises")
 public class Enterprise extends AuditModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "user_id")
     private Entrepreneur entrepreneur;
 
     @NotNull
     @Size(max = 100)
-    @NaturalId
     private String name;
 
     @NotNull
     @Size(max = 300)
-    @NaturalId
     private String description;
 
     @NotNull
     @Size(max = 50)
-    @NaturalId
     private String businessEmail;
 
     @NotNull
     @Size(max = 10)
-    @NaturalId
     private String corpNumber;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    public Enterprise setEntrepreneur(Entrepreneur entrepreneur) {
+        this.entrepreneur = entrepreneur;
+        return this;
+    }
+
+    public Enterprise setStartups(List<Startup> startups) {
+        this.startups = startups;
+        return this;
+    }
+
+    public Enterprise setRequests(List<Request> requests) {
+        this.requests = requests;
+        return this;
+    }
+
+    @OneToMany(mappedBy = "enterprise", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Startup> startups;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})

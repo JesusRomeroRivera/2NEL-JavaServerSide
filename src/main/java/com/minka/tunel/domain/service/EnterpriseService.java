@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 public interface EnterpriseService {
     Page<Enterprise> getAllEnterprises(Pageable pageable);
     Enterprise getEnterpriseById(Long enterpriseId);
-    Enterprise createEnterprise(Enterprise enterprise);
+    Enterprise createEnterprise(Long userId, Enterprise enterprise);
     Enterprise updateEnterprise(Long enterpriseId, Enterprise enterprise);
     ResponseEntity<?> deleteEnterprise(Long enterpriseId);
 }

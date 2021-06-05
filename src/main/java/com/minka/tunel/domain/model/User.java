@@ -12,16 +12,16 @@ public class User extends AuditModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @OneToOne(mappedBy = "user")
+    @PrimaryKeyJoinColumn
     private Profile profile;
 
     private String email;
 
     private String password;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "credit_card_id", nullable = false)
-    @JsonIgnore
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
     private CreditCard creditCard;
 
     public User() {

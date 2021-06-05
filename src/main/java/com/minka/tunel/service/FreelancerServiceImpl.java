@@ -2,6 +2,7 @@ package com.minka.tunel.service;
 
 import com.minka.tunel.domain.model.Freelancer;
 import com.minka.tunel.domain.repository.FreelancerRepository;
+import com.minka.tunel.domain.repository.UserRepository;
 import com.minka.tunel.domain.service.FreelancerService;
 import com.minka.tunel.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class FreelancerServiceImpl implements FreelancerService {
     @Autowired
     private FreelancerRepository freelancerRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public Page<Freelancer> getAllFreelancers(Pageable pageable) {
         return freelancerRepository.findAll(pageable);    }
@@ -27,7 +31,12 @@ public class FreelancerServiceImpl implements FreelancerService {
     }
 
     @Override
-    public Freelancer createFreelancer(Freelancer freelancer) {
+    public Freelancer createFreelancer(Long userId, Freelancer freelancer) {
+        var foundUser = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
+        foundUser.setProfile(freelancer);
+        freelancer.setId(userId);
+        freelancer.setUser(foundUser);
         return freelancerRepository.save(freelancer);
     }
 

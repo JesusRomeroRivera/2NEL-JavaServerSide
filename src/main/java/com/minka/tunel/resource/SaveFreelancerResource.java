@@ -2,7 +2,7 @@ package com.minka.tunel.resource;
 
 import javax.validation.constraints.NotNull;
 
-public class SaveFreelancerResource {
+public class SaveFreelancerResource extends SaveProfileResource {
     @NotNull
     private String specialty;
 

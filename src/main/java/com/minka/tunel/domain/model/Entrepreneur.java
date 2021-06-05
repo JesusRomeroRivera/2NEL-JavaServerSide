@@ -7,7 +7,9 @@ import javax.validation.constraints.Size;
 @Entity
 @DiscriminatorValue("entrepreneur")
 public class Entrepreneur extends Profile {
-    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+
+    @OneToOne(mappedBy = "entrepreneur", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
     private Enterprise enterprise;
 
     public Entrepreneur(){
@@ -20,5 +22,10 @@ public class Entrepreneur extends Profile {
 
     public Enterprise getEnterprise() {
         return enterprise;
+    }
+
+    public Entrepreneur setEnterprise(Enterprise enterprise) {
+        this.enterprise = enterprise;
+        return this;
     }
 }

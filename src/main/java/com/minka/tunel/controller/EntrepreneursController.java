@@ -56,8 +56,9 @@ public class EntrepreneursController {
     })
     @PostMapping("/entrepreneurs")
     public EntrepreneurResource createEntrepreneur(
+            Long userId,
             @Valid @RequestBody SaveEntrepreneurResource resource){
-        return convertToResource(entrepreneurService.createEntrepreneur(convertToEntity(resource)));
+        return convertToResource(entrepreneurService.createEntrepreneur(userId, convertToEntity(resource)));
     }
 
     @Operation(summary = "Update an Entrepreneur", description = "Update an Entrepreneur", tags = {"entrepreneurs"})

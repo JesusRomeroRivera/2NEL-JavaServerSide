@@ -2,6 +2,7 @@ package com.minka.tunel.service;
 
 import com.minka.tunel.domain.model.Investor;
 import com.minka.tunel.domain.repository.InvestorRepository;
+import com.minka.tunel.domain.repository.UserRepository;
 import com.minka.tunel.domain.service.InvestorService;
 import com.minka.tunel.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class InvestorServiceImpl implements InvestorService {
     @Autowired
     private InvestorRepository investorRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public Page<Investor> getAllInvestors(Pageable pageable) {
         return investorRepository.findAll(pageable);
@@ -28,7 +32,12 @@ public class InvestorServiceImpl implements InvestorService {
     }
 
     @Override
-    public Investor createInvestor(Investor investor) {
+    public Investor createInvestor(Long userId, Investor investor) {
+        var foundUser = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
+        foundUser.setProfile(investor);
+        investor.setId(userId);
+        investor.setUser(foundUser);
         return investorRepository.save(investor);
     }
 

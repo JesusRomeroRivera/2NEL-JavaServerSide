@@ -57,8 +57,9 @@ public class EnterprisesController {
     })
     @PostMapping("/enterprises")
     public EnterpriseResource createEnterprise(
+            Long userId,
             @Valid @RequestBody SaveEnterpriseResource resource){
-        return convertToResource(enterpriseService.createEnterprise(convertToEntity(resource)));
+        return convertToResource(enterpriseService.createEnterprise(userId, convertToEntity(resource)));
     }
 
     @Operation(summary = "Update an Enterprise", description = "Update an Enterprise", tags = {"enterprises"})

@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 public interface FreelancerService {
     Page<Freelancer> getAllFreelancers(Pageable pageable);
     Freelancer getFreelancerById(Long userId);
-    Freelancer createFreelancer(Freelancer freelancer);
+    Freelancer createFreelancer(Long userId, Freelancer freelancer);
     Freelancer updateFreelancer(Long userId, Freelancer freelancer);
     ResponseEntity<?> deleteFreelancer(Long userId);
 }

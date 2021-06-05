@@ -59,8 +59,9 @@ public class InvestorsController {
     })
     @PostMapping("/investors")
     public InvestorResource createInvestor(
+            Long userId,
             @Valid @RequestBody SaveInvestorResource resource){
-        return convertToResource(investorService.createInvestor(convertToEntity(resource)));
+        return convertToResource(investorService.createInvestor(userId, convertToEntity(resource)));
     }
 
     @Operation(summary = "Update an Investor", description = "Update an Investor", tags = {"investors"})

@@ -2,6 +2,7 @@ package com.minka.tunel.service;
 
 import com.minka.tunel.domain.model.Enterprise;
 import com.minka.tunel.domain.repository.EnterpriseRepository;
+import com.minka.tunel.domain.repository.EntrepreneurRepository;
 import com.minka.tunel.domain.service.EnterpriseService;
 import com.minka.tunel.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class EnterpriseServiceImpl implements EnterpriseService {
     @Autowired
     private EnterpriseRepository enterpriseRepository;
 
+    @Autowired
+    private EntrepreneurRepository entrepreneurRepository;
+
     @Override
     public Page<Enterprise> getAllEnterprises(Pageable pageable) {
         return enterpriseRepository.findAll(pageable);
@@ -28,7 +32,11 @@ public class EnterpriseServiceImpl implements EnterpriseService {
     }
 
     @Override
-    public Enterprise createEnterprise(Enterprise enterprise) {
+    public Enterprise createEnterprise(Long userId, Enterprise enterprise) {
+        var foundEntrepreneur = entrepreneurRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Entrepreneur", "Id", userId));
+        foundEntrepreneur.setEnterprise(enterprise);
+        enterprise.setEntrepreneur(foundEntrepreneur);
         return enterpriseRepository.save(enterprise);
     }
 

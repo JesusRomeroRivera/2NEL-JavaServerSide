@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 public interface EntrepreneurService {
     Page<Entrepreneur> getAllEntrepreneurs(Pageable pageable);
     Entrepreneur getEntrepreneurById(Long userId);
-    Entrepreneur createEntrepreneur(Entrepreneur entrepreneur);
+    Entrepreneur createEntrepreneur(Long userId, Entrepreneur entrepreneur);
     Entrepreneur updateEntrepreneur(Long userId, Entrepreneur entrepreneur);
     ResponseEntity<?> deleteEntrepreneur(Long userId);
 }
