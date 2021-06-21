@@ -18,13 +18,17 @@ import static javax.persistence.InheritanceType.SINGLE_TABLE;
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING,
         name = "profile_type")
 //@MappedSuperclass
-@JsonIgnoreProperties(value = {"id", "user", "eMembershipType", "firstName", "lastName", "portfolio", "profileTags", "requests"}, allowSetters = true, allowGetters = true)
+@JsonIgnoreProperties(value = {"id", "imageUrl", "user", "eMembershipType", "firstName", "lastName", "portfolio", "description", "city", "profileTags", "requests", "favoriteEntrepreneurs", "favoriteFreelancers", "favoriteInvestors", "favoriteStartups"}, allowSetters = true, allowGetters = true)
 
 public class Profile extends AuditModel {
 
     @Id
     @Column(name = "user_id")
     private Long id;
+
+    @NotNull
+    @Size(max = 20)
+    private String imageUrl;
 
     @OneToOne(cascade = CascadeType.ALL)
     @MapsId
@@ -35,6 +39,8 @@ public class Profile extends AuditModel {
     //@NotNull
     private EMembershipType eMembershipType;
 
+    @NotNull
+    @Size(max = 20)
     private String firstName;
 
     @NotNull
@@ -45,6 +51,14 @@ public class Profile extends AuditModel {
     @Size(max = 100)
     private String portfolio;
 
+    @NotNull
+    @Size(max = 300)
+    private String description;
+
+    @NotNull
+    @Size(max = 100)
+    private String city;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "profile_tags",
@@ -54,6 +68,38 @@ public class Profile extends AuditModel {
 
     @OneToMany(mappedBy = "profile", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Request> requests;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "favorite_entrepreneurs",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "favorite_id")
+    )
+    private List<Entrepreneur> favoriteEntrepreneurs;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "favorite_freelancers",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "favorite_id")
+    )
+    private List<Freelancer> favoriteFreelancers;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "favorite_investors",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "favorite_id")
+    )
+    private List<Investor> favoriteInvestors;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "favorite_startups",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "startup_id")
+    )
+    private List<Startup> favoriteStartups;
 
     public Profile() {
     }
@@ -144,6 +190,74 @@ public class Profile extends AuditModel {
     public Profile unTagWith(Tag tag) {
         if(this.isTaggedWith(tag))
             this.getProfileTags().remove(tag);
+        return this;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public Profile setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+        return this;
+    }
+
+    public Profile seteMembershipType(EMembershipType eMembershipType) {
+        this.eMembershipType = eMembershipType;
+        return this;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Profile setDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public Profile setCity(String city) {
+        this.city = city;
+        return this;
+    }
+
+    public List<Entrepreneur> getFavoriteEntrepreneurs() {
+        return favoriteEntrepreneurs;
+    }
+
+    public Profile setFavoriteEntrepreneurs(List<Entrepreneur> favoriteEntrepreneurs) {
+        this.favoriteEntrepreneurs = favoriteEntrepreneurs;
+        return this;
+    }
+
+    public List<Freelancer> getFavoriteFreelancers() {
+        return favoriteFreelancers;
+    }
+
+    public Profile setFavoriteFreelancers(List<Freelancer> favoriteFreelancers) {
+        this.favoriteFreelancers = favoriteFreelancers;
+        return this;
+    }
+
+    public List<Investor> getFavoriteInvestors() {
+        return favoriteInvestors;
+    }
+
+    public Profile setFavoriteInvestors(List<Investor> favoriteInvestors) {
+        this.favoriteInvestors = favoriteInvestors;
+        return this;
+    }
+
+    public List<Startup> getFavoriteStartups() {
+        return favoriteStartups;
+    }
+
+    public Profile setFavoriteStartups(List<Startup> favoriteStartups) {
+        this.favoriteStartups = favoriteStartups;
         return this;
     }
 }

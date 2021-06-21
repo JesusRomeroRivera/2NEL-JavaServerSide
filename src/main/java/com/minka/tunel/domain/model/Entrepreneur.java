@@ -28,4 +28,20 @@ public class Entrepreneur extends Profile {
         this.enterprise = enterprise;
         return this;
     }
+
+    public boolean isAlreadyFavorite(Entrepreneur entrepreneur) {
+        return this.getFavoriteEntrepreneurs().contains(entrepreneur);
+    }
+
+    public Entrepreneur addFavorite(Entrepreneur entrepreneur) {
+        if(!this.isAlreadyFavorite(entrepreneur))
+            this.getFavoriteEntrepreneurs().add(entrepreneur);
+        return this;
+    }
+
+    public Entrepreneur removeFavorite(Entrepreneur entrepreneur) {
+        if(this.isAlreadyFavorite(entrepreneur))
+            this.getFavoriteEntrepreneurs().remove(entrepreneur);
+        return this;
+    }
 }

@@ -27,4 +27,20 @@ public class Freelancer extends Profile {
         this.specialty = specialty;
         return this;
     }
+
+    public boolean isAlreadyFavorite(Freelancer freelancer) {
+        return this.getFavoriteFreelancers().contains(freelancer);
+    }
+
+    public Freelancer addFavorite(Freelancer freelancer) {
+        if(!this.isAlreadyFavorite(freelancer))
+            this.getFavoriteFreelancers().add(freelancer);
+        return this;
+    }
+
+    public Freelancer removeFavorite(Freelancer freelancer) {
+        if(this.isAlreadyFavorite(freelancer))
+            this.getFavoriteFreelancers().remove(freelancer);
+        return this;
+    }
 }

@@ -1,6 +1,7 @@
 package com.minka.tunel.service;
 
 import com.minka.tunel.domain.model.Entrepreneur;
+import com.minka.tunel.domain.model.Tag;
 import com.minka.tunel.domain.repository.EntrepreneurRepository;
 import com.minka.tunel.domain.repository.UserRepository;
 import com.minka.tunel.domain.service.EntrepreneurService;
@@ -61,5 +62,27 @@ public class EntrepreneurServiceImpl implements EntrepreneurService {
                     return (ResponseEntity.ok().build());
                 })
                 .orElseThrow(() -> new ResourceNotFoundException("Entrepreneur", "Id", userId));
+    }
+
+    @Override
+    public Entrepreneur assignFavoriteEntrepreneur(Long userId, Long favoriteId) {
+        Entrepreneur entrepreneur = entrepreneurRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Entrepreneur", "Id", userId));
+        return entrepreneurRepository.findById(favoriteId).map(
+                profile -> entrepreneurRepository.save(profile.addFavorite(entrepreneur)))
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Entrepreneur", "Id", favoriteId));
+    }
+
+    @Override
+    public Entrepreneur unassignFavoriteEntrepreneur(Long userId, Long favoriteId) {
+        Entrepreneur entrepreneur = entrepreneurRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Entrepreneur", "Id", userId));
+        return entrepreneurRepository.findById(favoriteId).map(
+                profile -> entrepreneurRepository.save(profile.removeFavorite(entrepreneur)))
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Entrepreneur", "Id", favoriteId));
     }
 }

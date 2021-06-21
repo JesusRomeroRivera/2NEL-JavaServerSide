@@ -1,9 +1,7 @@
 package com.minka.tunel.service;
 
 import com.minka.tunel.domain.model.Request;
-import com.minka.tunel.domain.repository.ProfileRepository;
-import com.minka.tunel.domain.repository.RequestRepository;
-import com.minka.tunel.domain.repository.UserRepository;
+import com.minka.tunel.domain.repository.*;
 import com.minka.tunel.domain.service.RequestService;
 import com.minka.tunel.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,37 +20,96 @@ public class RequestServiceImpl implements RequestService {
     private RequestRepository requestRepository;
 
     @Autowired
-    private ProfileRepository profileRepository;
+    private EntrepreneurRepository entrepreneurRepository;
+
+    @Autowired
+    private FreelancerRepository freelancerRepository;
+
+    @Autowired
+    private InvestorRepository investorRepository;
 
     @Override
-    public Page<Request> getAllRequests(Pageable pageable) {
-        return requestRepository.findAll(pageable);
-    }
-
-    @Override
-    public Page<Request> getAllRequestsByUserId(Long userId, Pageable pageable) {
-        return profileRepository.findById(userId)
+    public Page<Request> getAllEntrepreneurRequestsByUserId(Long userId, Pageable pageable) {
+        return entrepreneurRepository.findById(userId)
                 .map(request -> {
                     List<Request> requests = request.getRequests();
                     int requestsCount = requests.size();
                     return new PageImpl<>(requests, pageable, requestsCount);
                 })
-                .orElseThrow(() -> new ResourceNotFoundException("Profile", "Id", userId));
+                .orElseThrow(() -> new ResourceNotFoundException("Entrepreneur", "Id", userId));
     }
 
     @Override
-    public Request getRequestById(Long requestId) {
+    public Page<Request> getAllFreelancerRequestsByUserId(Long userId, Pageable pageable) {
+        return freelancerRepository.findById(userId)
+                .map(request -> {
+                    List<Request> requests = request.getRequests();
+                    int requestsCount = requests.size();
+                    return new PageImpl<>(requests, pageable, requestsCount);
+                })
+                .orElseThrow(() -> new ResourceNotFoundException("Freelancer", "Id", userId));
+    }
+
+    @Override
+    public Page<Request> getAllInvestorRequestsByUserId(Long userId, Pageable pageable) {
+        return investorRepository.findById(userId)
+                .map(request -> {
+                    List<Request> requests = request.getRequests();
+                    int requestsCount = requests.size();
+                    return new PageImpl<>(requests, pageable, requestsCount);
+                })
+                .orElseThrow(() -> new ResourceNotFoundException("Investor", "Id", userId));
+    }
+
+    @Override
+    public Request getEntrepreneurRequestById(Long userId, Long requestId) {
+        var foundEntrepreneur = entrepreneurRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Entrepreneur", "Id", userId));
+
         return requestRepository.findById(requestId)
                 .orElseThrow(() -> new ResourceNotFoundException("Request", "Id", requestId));
     }
 
     @Override
-    public Request createRequest(Request request) {
+    public Request getFreelancerRequestById(Long userId, Long requestId) {
+        var foundFreelancer = freelancerRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Freelancer", "Id", userId));
+
+        return requestRepository.findById(requestId)
+                .orElseThrow(() -> new ResourceNotFoundException("Request", "Id", requestId));
+    }
+
+    @Override
+    public Request getInvestorRequestById(Long userId, Long requestId) {
+        var foundInvestor = investorRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Investor", "Id", userId));
+
+        return requestRepository.findById(requestId)
+                .orElseThrow(() -> new ResourceNotFoundException("Request", "Id", requestId));
+    }
+
+    @Override
+    public Request createEntrepreneurRequest(Long userId, Request request) {
+        var foundEntrepreneur = entrepreneurRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Entrepreneur", "Id", userId));
+
+        //request.set
+
         return requestRepository.save(request);
     }
 
     @Override
-    public Request updateRequest(Long requestId, Request request) {
+    public Request createFreelancerRequest(Long userId, Request request) {
+        return null;
+    }
+
+    @Override
+    public Request createInvestorRequest(Long userId, Request request) {
+        return null;
+    }
+
+    @Override
+    public Request updateEntrepreneurRequest(Long userId, Long requestId, Request request) {
         return requestRepository.findById(requestId)
                 .map(request1 -> {
                     request1.setSubject(request.getSubject());
@@ -62,12 +119,32 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public ResponseEntity<?> deleteRequest(Long requestId) {
+    public Request updateFreelancerRequest(Long userId, Long requestId, Request request) {
+        return null;
+    }
+
+    @Override
+    public Request updateInvestorRequest(Long userId, Long requestId, Request request) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<?> deleteEntrepreneurRequest(Long userId, Long requestId) {
         return requestRepository.findById(requestId)
                 .map(request -> {
                     requestRepository.delete(request);
                     return (ResponseEntity.ok().build());
                 })
                 .orElseThrow(() -> new ResourceNotFoundException("Request", "Id", requestId));
+    }
+
+    @Override
+    public ResponseEntity<?> deleteFreelancerRequest(Long userId, Long requestId) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<?> deleteInvestorRequest(Long userId, Long requestId) {
+        return null;
     }
 }

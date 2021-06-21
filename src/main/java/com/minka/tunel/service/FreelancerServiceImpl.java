@@ -1,5 +1,6 @@
 package com.minka.tunel.service;
 
+import com.minka.tunel.domain.model.Entrepreneur;
 import com.minka.tunel.domain.model.Freelancer;
 import com.minka.tunel.domain.repository.FreelancerRepository;
 import com.minka.tunel.domain.repository.UserRepository;
@@ -61,5 +62,27 @@ public class FreelancerServiceImpl implements FreelancerService {
                     return (ResponseEntity.ok().build());
                 })
                 .orElseThrow(() -> new ResourceNotFoundException("Freelancer", "Id", userId));
+    }
+
+    @Override
+    public Freelancer assignFavoriteFreelancer(Long userId, Long favoriteId) {
+        Freelancer freelancer = freelancerRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Freelancer", "Id", userId));
+        return freelancerRepository.findById(favoriteId).map(
+                profile -> freelancerRepository.save(profile.addFavorite(freelancer)))
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Freelancer", "Id", favoriteId));
+    }
+
+    @Override
+    public Freelancer unassignFavoriteFreelancer(Long userId, Long favoriteId) {
+        Freelancer freelancer = freelancerRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Freelancer", "Id", userId));
+        return freelancerRepository.findById(favoriteId).map(
+                profile -> freelancerRepository.save(profile.removeFavorite(freelancer)))
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Freelancer", "Id", favoriteId));
     }
 }

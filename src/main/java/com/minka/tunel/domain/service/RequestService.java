@@ -6,10 +6,19 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 public interface RequestService {
-    Page<Request> getAllRequests(Pageable pageable);
-    Page<Request> getAllRequestsByUserId(Long userId, Pageable pageable);
-    Request getRequestById(Long requestId);
-    Request createRequest(Request request);
-    Request updateRequest(Long requestId, Request request);
-    ResponseEntity<?> deleteRequest(Long requestId);
+    Page<Request> getAllEntrepreneurRequestsByUserId(Long userId, Pageable pageable);
+    Page<Request> getAllFreelancerRequestsByUserId(Long userId, Pageable pageable);
+    Page<Request> getAllInvestorRequestsByUserId(Long userId, Pageable pageable);
+    Request getEntrepreneurRequestById(Long userId, Long requestId);
+    Request getFreelancerRequestById(Long userId, Long requestId);
+    Request getInvestorRequestById(Long userId, Long requestId);
+    Request createEntrepreneurRequest(Long userId, Request request);
+    Request createFreelancerRequest(Long userId, Request request);
+    Request createInvestorRequest(Long userId, Request request);
+    Request updateEntrepreneurRequest(Long userId, Long requestId, Request request);
+    Request updateFreelancerRequest(Long userId, Long requestId, Request request);
+    Request updateInvestorRequest(Long userId, Long requestId, Request request);
+    ResponseEntity<?> deleteEntrepreneurRequest(Long userId, Long requestId);
+    ResponseEntity<?> deleteFreelancerRequest(Long userId, Long requestId);
+    ResponseEntity<?> deleteInvestorRequest(Long userId, Long requestId);
 }

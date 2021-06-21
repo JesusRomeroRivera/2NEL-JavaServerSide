@@ -1,5 +1,6 @@
 package com.minka.tunel.service;
 
+import com.minka.tunel.domain.model.Freelancer;
 import com.minka.tunel.domain.model.Investor;
 import com.minka.tunel.domain.repository.InvestorRepository;
 import com.minka.tunel.domain.repository.UserRepository;
@@ -61,5 +62,27 @@ public class InvestorServiceImpl implements InvestorService {
                     return (ResponseEntity.ok().build());
                 })
                 .orElseThrow(() -> new ResourceNotFoundException("Investor", "Id", userId));
+    }
+
+    @Override
+    public Investor assignFavoriteInvestor(Long userId, Long favoriteId) {
+        Investor investor = investorRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Investor", "Id", userId));
+        return investorRepository.findById(favoriteId).map(
+                profile -> investorRepository.save(profile.addFavorite(investor)))
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Investor", "Id", favoriteId));
+    }
+
+    @Override
+    public Investor unassignFavoriteInvestor(Long userId, Long favoriteId) {
+        Investor investor = investorRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Investor", "Id", userId));
+        return investorRepository.findById(favoriteId).map(
+                profile -> investorRepository.save(profile.removeFavorite(investor)))
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Investor", "Id", favoriteId));
     }
 }
