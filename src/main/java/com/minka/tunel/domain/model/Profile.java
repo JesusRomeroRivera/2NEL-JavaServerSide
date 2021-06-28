@@ -26,7 +26,6 @@ public class Profile extends AuditModel {
     @Column(name = "user_id")
     private Long id;
 
-    @NotNull
     @Size(max = 20)
     private String imageUrl;
 

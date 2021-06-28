@@ -7,18 +7,24 @@ import javax.validation.constraints.Size;
 
 public class SaveProfileResource {
 
-    @NaturalId
+    private String imageUrl;
+
+    @NotNull
     private String firstName;
 
     @NotNull
     @Size(max = 20)
-    @NaturalId
     private String lastName;
 
     @NotNull
     @Size(max = 100)
-    @NaturalId
     private String portfolio;
+
+    @NotNull
+    private String description;
+
+    @NotNull
+    private String city;
 
     public String getFirstName() {
         return firstName;
@@ -46,4 +52,32 @@ public class SaveProfileResource {
         this.portfolio = portfolio;
         return this;
     }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public SaveProfileResource setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+        return this;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public SaveProfileResource setDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public SaveProfileResource setCity(String city) {
+        this.city = city;
+        return this;
+    }
+
 }
