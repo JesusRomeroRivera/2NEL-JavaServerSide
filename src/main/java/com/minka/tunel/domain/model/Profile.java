@@ -63,9 +63,11 @@ public class Profile extends AuditModel {
             name = "profile_tags",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    @JsonIgnore
     private List<Tag> profileTags;
 
     @OneToMany(mappedBy = "profile", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonIgnore
     private List<Request> requests;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -74,6 +76,7 @@ public class Profile extends AuditModel {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "favorite_id")
     )
+    @JsonIgnore
     private List<Entrepreneur> favoriteEntrepreneurs;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -82,6 +85,7 @@ public class Profile extends AuditModel {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "favorite_id")
     )
+    @JsonIgnore
     private List<Freelancer> favoriteFreelancers;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -90,6 +94,7 @@ public class Profile extends AuditModel {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "favorite_id")
     )
+    @JsonIgnore
     private List<Investor> favoriteInvestors;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -98,6 +103,7 @@ public class Profile extends AuditModel {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "startup_id")
     )
+    @JsonIgnore
     private List<Startup> favoriteStartups;
 
     public Profile() {
