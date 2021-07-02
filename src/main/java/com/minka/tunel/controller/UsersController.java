@@ -59,7 +59,7 @@ public class UsersController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User created", content = @Content(mediaType = "application/json"))
     })
-    @PostMapping("/users")
+    @PostMapping("/user-register")
     public UserResource createUser(
             @Valid @RequestBody SaveUserResource resource){
         return convertToResource(userService.createUser(convertToEntity(resource)));
