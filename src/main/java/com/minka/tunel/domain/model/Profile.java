@@ -46,10 +46,6 @@ public class Profile extends AuditModel {
     private String lastName;
 
     @NotNull
-    @Size(max = 100)
-    private String portfolio;
-
-    @NotNull
     @Size(max = 300)
     private String description;
 
@@ -111,7 +107,6 @@ public class Profile extends AuditModel {
     public Profile(@NotNull @Size(max = 20) String firstName, @NotNull @Size(max = 20) String lastName, @NotNull @Size(max = 100) String portfolio) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.portfolio = portfolio;
     }
 
     public Long getId() {
@@ -146,15 +141,6 @@ public class Profile extends AuditModel {
 
     public Profile setLastName(String lastName) {
         this.lastName = lastName;
-        return this;
-    }
-
-    public String getPortfolio() {
-        return portfolio;
-    }
-
-    public Profile setPortfolio(String portfolio) {
-        this.portfolio = portfolio;
         return this;
     }
 

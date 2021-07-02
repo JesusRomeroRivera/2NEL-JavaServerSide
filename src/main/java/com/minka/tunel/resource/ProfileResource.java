@@ -7,7 +7,6 @@ public class ProfileResource extends AuditModel {
     private String imageUrl;
     private String firstName;
     private String lastName;
-    private String portfolio;
     private String description;
     private String city;
 
@@ -35,15 +34,6 @@ public class ProfileResource extends AuditModel {
 
     public ProfileResource setLastName(String lastName) {
         this.lastName = lastName;
-        return this;
-    }
-
-    public String getPortfolio() {
-        return portfolio;
-    }
-
-    public ProfileResource setPortfolio(String portfolio) {
-        this.portfolio = portfolio;
         return this;
     }
 

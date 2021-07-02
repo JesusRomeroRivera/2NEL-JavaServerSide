@@ -17,10 +17,6 @@ public class SaveProfileResource {
     private String lastName;
 
     @NotNull
-    @Size(max = 100)
-    private String portfolio;
-
-    @NotNull
     private String description;
 
     @NotNull
@@ -41,15 +37,6 @@ public class SaveProfileResource {
 
     public SaveProfileResource setLastName(String lastName) {
         this.lastName = lastName;
-        return this;
-    }
-
-    public String getPortfolio() {
-        return portfolio;
-    }
-
-    public SaveProfileResource setPortfolio(String portfolio) {
-        this.portfolio = portfolio;
         return this;
     }
 
