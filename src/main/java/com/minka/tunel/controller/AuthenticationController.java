@@ -41,10 +41,11 @@ public class AuthenticationController {
         authenticate(request.getUsername(), request.getPassword());
         final UserDetails userDetails =
                 userDetailsService.loadUserByUsername(request.getUsername());
+        Long userId = userDetailsService.getUserId(userDetails.getUsername());
         System.out.println("Password: " + request.getPassword());
         String token = tokenCenter.generateToken(userDetails);
         return ResponseEntity.ok(new
-                AuthenticationResponse(userDetails.getUsername(), token));
+                AuthenticationResponse(userId, userDetails.getUsername(), token));
     }
 
     private void authenticate(String username, String password)

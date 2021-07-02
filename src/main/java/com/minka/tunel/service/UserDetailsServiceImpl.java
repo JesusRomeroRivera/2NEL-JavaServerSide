@@ -31,12 +31,14 @@ public class UserDetailsServiceImpl implements DefaultUserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // TODO: Implement Repository-based User Store
         users = userRepository.findAll();
+
         /*
         String defaultPassword = passwordEncoder.encode("password");
         if(DEFAULT_USERNAME.equals(username)) {
             return new User(DEFAULT_USERNAME, defaultPassword, DEFAULT_AUTHORITIES);
         }
         */
+
         for (com.minka.tunel.domain.model.User user : users){
             if (user.getEmail().equals(username)){
                 return new User(username, passwordEncoder.encode(user.getPassword()), DEFAULT_AUTHORITIES);
@@ -44,6 +46,16 @@ public class UserDetailsServiceImpl implements DefaultUserDetailsService {
         }
         throw new UsernameNotFoundException("User not found with username " + username);
 
+    }
+
+    public Long getUserId(String username) throws UsernameNotFoundException {
+        users = userRepository.findAll();
+        for (com.minka.tunel.domain.model.User user: users){
+            if (user.getEmail().equals(username)){
+                return user.getId();
+            }
+        }
+        throw new UsernameNotFoundException("User not found with username " + username);
     }
 
     /*
