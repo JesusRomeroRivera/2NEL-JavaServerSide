@@ -51,6 +51,9 @@ public class WebSecurityConfig extends
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/swagger-ui/**").permitAll()
+                .antMatchers("/tunel-api-docs-ui.html").permitAll()
+                .antMatchers("/tunel-api-docs/**").permitAll()
                 .antMatchers("/api/auth/*").permitAll()
                 .antMatchers("/api/user-register").permitAll()
                 .antMatchers("/api/users").permitAll()
