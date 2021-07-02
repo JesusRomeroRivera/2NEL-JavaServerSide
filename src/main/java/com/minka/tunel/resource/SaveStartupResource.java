@@ -13,6 +13,17 @@ public class SaveStartupResource {
     @Size(max = 350)
     private String description;
 
+    private String imageUrl;
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public SaveStartupResource setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+        return this;
+    }
+
     public String getName() {
         return name;
     }

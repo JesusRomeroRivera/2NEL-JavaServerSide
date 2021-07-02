@@ -30,6 +30,25 @@ public class Startup extends AuditModel {
     @Size(max = 200)
     private String description;
 
+    public Enterprise getEnterprise() {
+        return enterprise;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public Startup setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+        return this;
+    }
+
+    public List<Tag> getStartupTags() {
+        return startupTags;
+    }
+
+    private String imageUrl;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "startup_tags",

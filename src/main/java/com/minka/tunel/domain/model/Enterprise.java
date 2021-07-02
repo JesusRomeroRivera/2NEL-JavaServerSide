@@ -35,6 +35,17 @@ public class Enterprise extends AuditModel {
     @Size(max = 10)
     private String corpNumber;
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public Enterprise setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+        return this;
+    }
+
+    private String imageUrl;
+
     public Enterprise setEntrepreneur(Entrepreneur entrepreneur) {
         this.entrepreneur = entrepreneur;
         return this;

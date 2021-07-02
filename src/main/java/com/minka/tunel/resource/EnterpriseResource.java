@@ -8,6 +8,16 @@ public class EnterpriseResource extends AuditModel {
     private String description;
     private String businessEmail;
     private String corpNumber;
+    private String imageUrl;
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public EnterpriseResource setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+        return this;
+    }
 
     public Long getId() {
         return id;

@@ -8,23 +8,30 @@ import javax.validation.constraints.Size;
 public class SaveEnterpriseResource {
     @NotNull
     @Size(max = 100)
-    @NaturalId
     private String name;
 
     @NotNull
     @Size(max = 300)
-    @NaturalId
     private String description;
 
     @NotNull
     @Size(max = 50)
-    @NaturalId
     private String businessEmail;
 
     @NotNull
     @Size(max = 10)
-    @NaturalId
     private String corpNumber;
+
+    private String imageUrl;
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public SaveEnterpriseResource setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+        return this;
+    }
 
     public String getName() {
         return name;

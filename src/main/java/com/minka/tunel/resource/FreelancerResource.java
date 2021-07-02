@@ -2,7 +2,7 @@ package com.minka.tunel.resource;
 
 import com.minka.tunel.domain.model.Profile;
 
-public class FreelancerResource extends Profile {
+public class FreelancerResource extends ProfileResource {
     private String specialty;
 
     public String getSpecialty() {

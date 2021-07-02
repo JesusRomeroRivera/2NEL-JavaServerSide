@@ -6,6 +6,16 @@ public class StartupResource extends AuditModel {
     private Long id;
     private String name;
     private String description;
+    private String imageUrl;
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public StartupResource setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+        return this;
+    }
 
     public Long getId() {
         return id;
