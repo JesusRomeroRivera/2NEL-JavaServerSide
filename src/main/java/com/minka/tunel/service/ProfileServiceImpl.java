@@ -42,7 +42,6 @@ public class ProfileServiceImpl implements ProfileService {
                 .map(profile1 -> {
                     profile1.setFirstName(profile.getFirstName());
                     profile1.setLastName(profile.getLastName());
-                    profile1.setPortfolio(profile.getPortfolio());
                     return profileRepository.save(profile1);
                 })
                 .orElseThrow(() -> new ResourceNotFoundException("Profile", "Id", userId));

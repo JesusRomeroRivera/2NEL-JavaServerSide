@@ -48,6 +48,7 @@ public class EnterpriseServiceImpl implements EnterpriseService {
                     enterprise1.setBusinessEmail(enterprise.getBusinessEmail());
                     enterprise1.setCorpNumber(enterprise.getCorpNumber());
                     enterprise1.setDescription(enterprise.getDescription());
+                    enterprise1.setImageUrl((enterprise.getImageUrl()));
                     return enterpriseRepository.save(enterprise1);
                 })
                 .orElseThrow(() -> new ResourceNotFoundException("Enterprise", "Id", enterpriseId));

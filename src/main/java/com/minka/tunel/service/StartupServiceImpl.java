@@ -58,6 +58,7 @@ public class StartupServiceImpl implements StartupService {
                 .map(startup1 -> {
                     startup1.setName(startup.getName());
                     startup1.setDescription(startup.getDescription());
+                    startup1.setImageUrl(startup.getImageUrl());
                     return startupRepository.save(startup1);
                 })
                 .orElseThrow(() -> new ResourceNotFoundException("Startup", "Id", startupId));

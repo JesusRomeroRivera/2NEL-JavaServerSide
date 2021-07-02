@@ -47,8 +47,10 @@ public class FreelancerServiceImpl implements FreelancerService {
                 .map(freelancer1 -> {
                     freelancer1.setFirstName(freelancer.getFirstName());
                     freelancer1.setLastName(freelancer.getLastName());
-                    freelancer1.setPortfolio(freelancer.getPortfolio());
-                    freelancer.setSpecialty((freelancer.getSpecialty()));
+                    freelancer1.setSpecialty((freelancer.getSpecialty()));
+                    freelancer1.setImageUrl(freelancer.getImageUrl());
+                    freelancer1.setDescription(freelancer.getDescription());
+                    freelancer1.setCity(freelancer.getCity());
                     return freelancerRepository.save(freelancer1);
                 })
                 .orElseThrow(() -> new ResourceNotFoundException("Freelancer", "Id", userId));

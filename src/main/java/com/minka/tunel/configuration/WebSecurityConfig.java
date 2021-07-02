@@ -71,7 +71,7 @@ public class WebSecurityConfig extends
     }
 
 
-    /*
+/*
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable();
@@ -79,6 +79,9 @@ public class WebSecurityConfig extends
                 .and()
                 .logout().permitAll();
     }
-    */
+
+ */
+
+
 }
 

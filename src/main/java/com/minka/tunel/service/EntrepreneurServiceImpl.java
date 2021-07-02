@@ -48,7 +48,9 @@ public class EntrepreneurServiceImpl implements EntrepreneurService {
                 .map(entrepreneur1 -> {
                     entrepreneur1.setFirstName(entrepreneur.getFirstName());
                     entrepreneur1.setLastName(entrepreneur.getLastName());
-                    entrepreneur1.setPortfolio(entrepreneur.getPortfolio());
+                    entrepreneur1.setImageUrl(entrepreneur.getImageUrl());
+                    entrepreneur1.setDescription(entrepreneur.getDescription());
+                    entrepreneur1.setCity(entrepreneur.getCity());
                     return entrepreneurRepository.save(entrepreneur1);
                 })
                 .orElseThrow(() -> new ResourceNotFoundException("Entrepreneur", "Id", userId));

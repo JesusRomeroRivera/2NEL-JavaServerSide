@@ -48,7 +48,9 @@ public class InvestorServiceImpl implements InvestorService {
                 .map(investor1 -> {
                     investor1.setFirstName(investor.getFirstName());
                     investor1.setLastName(investor.getLastName());
-                    investor1.setPortfolio(investor.getPortfolio());
+                    investor1.setImageUrl(investor.getImageUrl());
+                    investor1.setDescription(investor.getDescription());
+                    investor1.setCity(investor.getCity());
                     return investorRepository.save(investor1);
                 })
                 .orElseThrow(() -> new ResourceNotFoundException("Investor", "Id", userId));
