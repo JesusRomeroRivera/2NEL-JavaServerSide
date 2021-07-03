@@ -28,19 +28,39 @@ public class Freelancer extends Profile {
         return this;
     }
 
-    public boolean isAlreadyFavorite(Freelancer freelancer) {
-        return this.getFavoriteFreelancers().contains(freelancer);
+    public Freelancer addFavoriteEntrepreneur(Entrepreneur entrepreneur) {
+        if(!this.isAlreadyFavoriteEntrepreneur(entrepreneur))
+            this.getFavoriteEntrepreneurs().add(entrepreneur);
+        return this;
     }
 
-    public Freelancer addFavorite(Freelancer freelancer) {
-        if(!this.isAlreadyFavorite(freelancer))
+    public Freelancer addFavoriteFreelancer(Freelancer freelancer) {
+        if(!this.isAlreadyFavoriteFreelancer(freelancer))
             this.getFavoriteFreelancers().add(freelancer);
         return this;
     }
 
-    public Freelancer removeFavorite(Freelancer freelancer) {
-        if(this.isAlreadyFavorite(freelancer))
+    public Freelancer addFavoriteInvestor(Investor investor) {
+        if(!this.isAlreadyFavoriteInvestor(investor))
+            this.getFavoriteInvestors().add(investor);
+        return this;
+    }
+
+    public Freelancer removeFavoriteEntrepreneur(Entrepreneur entrepreneur) {
+        if(this.isAlreadyFavoriteEntrepreneur(entrepreneur))
+            this.getFavoriteEntrepreneurs().remove(entrepreneur);
+        return this;
+    }
+
+    public Freelancer removeFavoriteFreelancer(Freelancer freelancer) {
+        if(this.isAlreadyFavoriteFreelancer(freelancer))
             this.getFavoriteFreelancers().remove(freelancer);
+        return this;
+    }
+
+    public Freelancer removeFavoriteInvestor(Investor investor) {
+        if(this.isAlreadyFavoriteInvestor(investor))
+            this.getFavoriteInvestors().remove(investor);
         return this;
     }
 }

@@ -1,9 +1,7 @@
 package com.minka.tunel.service;
 
-import com.minka.tunel.domain.model.Profile;
-import com.minka.tunel.domain.model.Tag;
-import com.minka.tunel.domain.repository.ProfileRepository;
-import com.minka.tunel.domain.repository.TagRepository;
+import com.minka.tunel.domain.model.*;
+import com.minka.tunel.domain.repository.*;
 import com.minka.tunel.domain.service.ProfileService;
 import com.minka.tunel.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +15,15 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Autowired
     private ProfileRepository profileRepository;
+
+    @Autowired
+    private EntrepreneurRepository entrepreneurRepository;
+
+    @Autowired
+    private FreelancerRepository freelancerRepository;
+
+    @Autowired
+    private InvestorRepository investorRepository;
 
     @Autowired
     private TagRepository tagRepository;
@@ -77,5 +84,71 @@ public class ProfileServiceImpl implements ProfileService {
                 profile -> profileRepository.save(profile.unTagWith(tag)))
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Tag", "Id", tagId));
+    }
+
+    @Override
+    public Profile assignFavoriteEntrepreneur(Long userId, Long favoriteId) {
+        Entrepreneur entrepreneur = entrepreneurRepository.findById(favoriteId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Entrepreneur", "Id", userId));
+        return profileRepository.findById(userId).map(
+                profile -> profileRepository.save(profile.addFavoriteEntrepreneur(entrepreneur)))
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Profile", "Id", userId));
+    }
+
+    @Override
+    public Profile unassignFavoriteEntrepreneur(Long userId, Long favoriteId) {
+        Entrepreneur entrepreneur = entrepreneurRepository.findById(favoriteId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Entrepreneur", "Id", userId));
+        return profileRepository.findById(userId).map(
+                profile -> profileRepository.save(profile.removeFavoriteEntrepreneur(entrepreneur)))
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Profile", "Id", userId));
+    }
+
+    @Override
+    public Profile assignFavoriteFreelancer(Long userId, Long favoriteId) {
+        Freelancer freelancer = freelancerRepository.findById(favoriteId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Freelancer", "Id", userId));
+        return profileRepository.findById(userId).map(
+                profile -> profileRepository.save(profile.addFavoriteFreelancer(freelancer)))
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Profile", "Id", userId));
+    }
+
+    @Override
+    public Profile unassignFavoriteFreelancer(Long userId, Long favoriteId) {
+        Freelancer freelancer = freelancerRepository.findById(favoriteId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Freelancer", "Id", userId));
+        return profileRepository.findById(userId).map(
+                profile -> profileRepository.save(profile.removeFavoriteFreelancer(freelancer)))
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Profile", "Id", userId));
+    }
+
+    @Override
+    public Profile assignFavoriteInvestor(Long userId, Long favoriteId) {
+        Investor investor = investorRepository.findById(favoriteId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Investor", "Id", userId));
+        return profileRepository.findById(userId).map(
+                profile -> profileRepository.save(profile.addFavoriteInvestor(investor)))
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Profile", "Id", userId));
+    }
+
+    @Override
+    public Profile unassignFavoriteInvestor(Long userId, Long favoriteId) {
+        Investor investor = investorRepository.findById(favoriteId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Investor", "Id", userId));
+        return profileRepository.findById(userId).map(
+                profile -> profileRepository.save(profile.removeFavoriteInvestor(investor)))
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Profile", "Id", userId));
     }
 }

@@ -4,6 +4,7 @@ import com.minka.tunel.domain.model.Entrepreneur;
 import com.minka.tunel.domain.service.EntrepreneurService;
 import com.minka.tunel.resource.EntrepreneurResource;
 import com.minka.tunel.resource.SaveEntrepreneurResource;
+import com.minka.tunel.resource.TagResource;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -35,6 +36,21 @@ public class EntrepreneursController {
     @GetMapping("/entrepreneurs")
     public Page<EntrepreneurResource> getAllEntrepreneurs(Pageable pageable) {
         List<EntrepreneurResource> entrepreneurs = entrepreneurService.getAllEntrepreneurs(pageable)
+                .getContent().stream().map(this::convertToResource)
+                .collect(Collectors.toList());
+        int entrepreneursCount = entrepreneurs.size();
+        return new PageImpl<>(entrepreneurs, pageable, entrepreneursCount);
+    }
+
+    @Operation(summary = "Get Favorite Entrepreneurs by UserID", description = "Get Favorite Entrepreneurs by UserID", tags = {"entrepreneurs"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Favorite Entrepreneurs returned", content = @Content(mediaType = "application/json"))
+    })
+    @GetMapping("/profiles/{userId}/favoriteEntrepreneurs")
+    public Page<EntrepreneurResource> getFavoriteEntrepreneursByUserId(
+            @PathVariable Long userId,
+            Pageable pageable) {
+        List<EntrepreneurResource> entrepreneurs = entrepreneurService.getAllFavoriteEntrepreneursByUserId(userId, pageable)
                 .getContent().stream().map(this::convertToResource)
                 .collect(Collectors.toList());
         int entrepreneursCount = entrepreneurs.size();

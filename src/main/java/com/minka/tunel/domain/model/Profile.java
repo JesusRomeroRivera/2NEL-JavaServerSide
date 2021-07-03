@@ -250,4 +250,52 @@ public class Profile extends AuditModel {
         this.favoriteStartups = favoriteStartups;
         return this;
     }
+
+    public boolean isAlreadyFavoriteEntrepreneur(Entrepreneur entrepreneur) {
+        return this.getFavoriteEntrepreneurs().contains(entrepreneur);
+    }
+
+    public boolean isAlreadyFavoriteFreelancer(Freelancer freelancer) {
+        return this.getFavoriteFreelancers().contains(freelancer);
+    }
+
+    public boolean isAlreadyFavoriteInvestor(Investor investor) {
+        return this.getFavoriteInvestors().contains(investor);
+    }
+
+    public Profile addFavoriteEntrepreneur(Entrepreneur entrepreneur) {
+        if(!this.isAlreadyFavoriteEntrepreneur(entrepreneur))
+            this.getFavoriteEntrepreneurs().add(entrepreneur);
+        return this;
+    }
+
+    public Profile addFavoriteFreelancer(Freelancer freelancer) {
+        if(!this.isAlreadyFavoriteFreelancer(freelancer))
+            this.getFavoriteFreelancers().add(freelancer);
+        return this;
+    }
+
+    public Profile addFavoriteInvestor(Investor investor) {
+        if(!this.isAlreadyFavoriteInvestor(investor))
+            this.getFavoriteInvestors().add(investor);
+        return this;
+    }
+
+    public Profile removeFavoriteEntrepreneur(Entrepreneur entrepreneur) {
+        if(this.isAlreadyFavoriteEntrepreneur(entrepreneur))
+            this.getFavoriteEntrepreneurs().remove(entrepreneur);
+        return this;
+    }
+
+    public Profile removeFavoriteFreelancer(Freelancer freelancer) {
+        if(this.isAlreadyFavoriteFreelancer(freelancer))
+            this.getFavoriteFreelancers().remove(freelancer);
+        return this;
+    }
+
+    public Profile removeFavoriteInvestor(Investor investor) {
+        if(this.isAlreadyFavoriteInvestor(investor))
+            this.getFavoriteInvestors().remove(investor);
+        return this;
+    }
 }

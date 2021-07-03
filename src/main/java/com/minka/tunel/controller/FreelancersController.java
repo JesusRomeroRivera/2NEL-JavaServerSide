@@ -1,11 +1,8 @@
 package com.minka.tunel.controller;
 
-import com.minka.tunel.domain.model.Entrepreneur;
 import com.minka.tunel.domain.model.Freelancer;
 import com.minka.tunel.domain.service.FreelancerService;
-import com.minka.tunel.resource.EntrepreneurResource;
 import com.minka.tunel.resource.FreelancerResource;
-import com.minka.tunel.resource.SaveEntrepreneurResource;
 import com.minka.tunel.resource.SaveFreelancerResource;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -52,6 +49,21 @@ public class FreelancersController {
     public FreelancerResource getFreelancerById(
             @PathVariable Long userId) {
         return convertToResource(freelancerService.getFreelancerById(userId));
+    }
+
+    @Operation(summary = "Get Favorite Freelancers by UserID", description = "Get Favorite Freelancers by UserID", tags = {"freelancers"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Favorite Freelancers returned", content = @Content(mediaType = "application/json"))
+    })
+    @GetMapping("/profiles/{userId}/favoriteFreelancers")
+    public Page<FreelancerResource> getFavoriteFreelancersByUserId(
+            @PathVariable Long userId,
+            Pageable pageable) {
+        List<FreelancerResource> freelancers = freelancerService.getAllFavoriteFreelancersByUserId(userId, pageable)
+                .getContent().stream().map(this::convertToResource)
+                .collect(Collectors.toList());
+        int freelancersCount = freelancers.size();
+        return new PageImpl<>(freelancers, pageable, freelancersCount);
     }
 
     @Operation(summary = "Create a Freelancer", description = "Create a Freelancer", tags = {"freelancers"})

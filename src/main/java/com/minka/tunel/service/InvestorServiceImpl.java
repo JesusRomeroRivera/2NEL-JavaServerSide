@@ -1,22 +1,26 @@
 package com.minka.tunel.service;
 
-import com.minka.tunel.domain.model.Freelancer;
-import com.minka.tunel.domain.model.Investor;
-import com.minka.tunel.domain.repository.InvestorRepository;
-import com.minka.tunel.domain.repository.UserRepository;
+import com.minka.tunel.domain.model.*;
+import com.minka.tunel.domain.repository.*;
 import com.minka.tunel.domain.service.InvestorService;
 import com.minka.tunel.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class InvestorServiceImpl implements InvestorService {
 
     @Autowired
     private InvestorRepository investorRepository;
+
+    @Autowired
+    private ProfileRepository profileRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -67,24 +71,15 @@ public class InvestorServiceImpl implements InvestorService {
     }
 
     @Override
-    public Investor assignFavoriteInvestor(Long userId, Long favoriteId) {
-        Investor investor = investorRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Investor", "Id", userId));
-        return investorRepository.findById(favoriteId).map(
-                profile -> investorRepository.save(profile.addFavorite(investor)))
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Investor", "Id", favoriteId));
+    public Page<Investor> getAllFavoriteInvestorsByUserId(Long userId, Pageable pageable) {
+        return profileRepository.findById(userId)
+                .map(user -> {
+                    List<Investor> investors = user.getFavoriteInvestors();
+                    int investorsCount = investors.size();
+                    return new PageImpl<>(investors, pageable, investorsCount);
+                })
+                .orElseThrow(() -> new ResourceNotFoundException("Investor", "Id", userId));
     }
 
-    @Override
-    public Investor unassignFavoriteInvestor(Long userId, Long favoriteId) {
-        Investor investor = investorRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Investor", "Id", userId));
-        return investorRepository.findById(favoriteId).map(
-                profile -> investorRepository.save(profile.removeFavorite(investor)))
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Investor", "Id", favoriteId));
-    }
+
 }

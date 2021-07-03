@@ -1,10 +1,11 @@
 package com.minka.tunel.controller;
 
 import com.minka.tunel.domain.model.Freelancer;
+import com.minka.tunel.domain.model.Profile;
 import com.minka.tunel.domain.service.FreelancerService;
+import com.minka.tunel.domain.service.ProfileService;
+import com.minka.tunel.resource.*;
 import com.minka.tunel.resource.FreelancerResource;
-import com.minka.tunel.resource.FreelancerResource;
-import com.minka.tunel.resource.SaveFreelancerResource;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -21,15 +22,15 @@ public class FavoriteFreelancersController {
     private ModelMapper mapper;
 
     @Autowired
-    private FreelancerService freelancerService;
+    private ProfileService profileService;
 
     @Operation(summary = "Assign a Favorite Freelancer to a Profile", description = "Assign a Favorite Freelancer to a Profile", tags = {"favorite-freelancers"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Favorite Freelancer Assigned", content = @Content(mediaType = "application/json"))
     })
     @PostMapping("/profiles/{userId}/favoriteFreelancers/{favoriteId}")
-    public FreelancerResource assignProfileTag(@PathVariable Long userId, @PathVariable Long favoriteId) {
-        return convertToResource(freelancerService.assignFavoriteFreelancer(userId, favoriteId));
+    public ProfileResource assignProfileTag(@PathVariable Long userId, @PathVariable Long favoriteId) {
+        return convertToResource(profileService.assignFavoriteFreelancer(userId, favoriteId));
     }
 
     @Operation(summary = "Unassign a Favorite Freelancer to a Profile", description = "Unassign a Favorite Freelancer to a Profile", tags = {"favorite-freelancers"})
@@ -37,15 +38,15 @@ public class FavoriteFreelancersController {
             @ApiResponse(responseCode = "200", description = "Favorite Freelancer Unassigned", content = @Content(mediaType = "application/json"))
     })
     @DeleteMapping("/profiles/{userId}/favoriteFreelancers/{favoriteId}")
-    public FreelancerResource unassignProfileTag(@PathVariable Long userId, @PathVariable Long favoriteId) {
-        return convertToResource(freelancerService.assignFavoriteFreelancer(userId, favoriteId));
+    public ProfileResource unassignProfileTag(@PathVariable Long userId, @PathVariable Long favoriteId) {
+        return convertToResource(profileService.assignFavoriteFreelancer(userId, favoriteId));
     }
 
-    private Freelancer convertToEntity(SaveFreelancerResource resource){
-        return mapper.map(resource, Freelancer.class);
+    private Profile convertToEntity(SaveProfileResource resource){
+        return mapper.map(resource, Profile.class);
     }
 
-    private FreelancerResource convertToResource(Freelancer entity) {
+    private ProfileResource convertToResource(Profile entity) {
         return mapper.map(entity, FreelancerResource.class);
     }
 }

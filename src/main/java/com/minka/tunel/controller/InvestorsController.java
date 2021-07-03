@@ -1,12 +1,8 @@
 package com.minka.tunel.controller;
 
-import com.minka.tunel.domain.model.Entrepreneur;
 import com.minka.tunel.domain.model.Investor;
 import com.minka.tunel.domain.service.InvestorService;
-import com.minka.tunel.resource.EntrepreneurResource;
-import com.minka.tunel.resource.InvestorResource;
-import com.minka.tunel.resource.SaveEntrepreneurResource;
-import com.minka.tunel.resource.SaveInvestorResource;
+import com.minka.tunel.resource.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -52,6 +48,21 @@ public class InvestorsController {
     public InvestorResource getInvestorById(
             @PathVariable Long userId) {
         return convertToResource(investorService.getInvestorById(userId));
+    }
+
+    @Operation(summary = "Get Favorite Investors by UserID", description = "Get Favorite Investors by UserID", tags = {"investors"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Favorite Investors returned", content = @Content(mediaType = "application/json"))
+    })
+    @GetMapping("/profiles/{userId}/favoriteInvestors")
+    public Page<InvestorResource> getFavoriteInvestorsByUserId(
+            @PathVariable Long userId,
+            Pageable pageable) {
+        List<InvestorResource> investors = investorService.getAllFavoriteInvestorsByUserId(userId, pageable)
+                .getContent().stream().map(this::convertToResource)
+                .collect(Collectors.toList());
+        int investorsCount = investors.size();
+        return new PageImpl<>(investors, pageable, investorsCount);
     }
 
     @Operation(summary = "Create an Investor", description = "Create an Investor", tags = {"investors"})

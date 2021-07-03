@@ -2,15 +2,20 @@ package com.minka.tunel.service;
 
 import com.minka.tunel.domain.model.Entrepreneur;
 import com.minka.tunel.domain.model.Freelancer;
+import com.minka.tunel.domain.model.Investor;
 import com.minka.tunel.domain.repository.FreelancerRepository;
+import com.minka.tunel.domain.repository.ProfileRepository;
 import com.minka.tunel.domain.repository.UserRepository;
 import com.minka.tunel.domain.service.FreelancerService;
 import com.minka.tunel.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class FreelancerServiceImpl implements FreelancerService {
@@ -19,11 +24,25 @@ public class FreelancerServiceImpl implements FreelancerService {
     private FreelancerRepository freelancerRepository;
 
     @Autowired
+    private ProfileRepository profileRepository;
+
+    @Autowired
     private UserRepository userRepository;
 
     @Override
     public Page<Freelancer> getAllFreelancers(Pageable pageable) {
         return freelancerRepository.findAll(pageable);    }
+
+    @Override
+    public Page<Freelancer> getAllFavoriteFreelancersByUserId(Long userId, Pageable pageable) {
+        return profileRepository.findById(userId)
+                .map(user -> {
+                    List<Freelancer> freelancers = user.getFavoriteFreelancers();
+                    int freelancersCount = freelancers.size();
+                    return new PageImpl<>(freelancers, pageable, freelancersCount);
+                })
+                .orElseThrow(() -> new ResourceNotFoundException("Freelancer", "Id", userId));
+    }
 
     @Override
     public Freelancer getFreelancerById(Long userId) {
@@ -64,27 +83,5 @@ public class FreelancerServiceImpl implements FreelancerService {
                     return (ResponseEntity.ok().build());
                 })
                 .orElseThrow(() -> new ResourceNotFoundException("Freelancer", "Id", userId));
-    }
-
-    @Override
-    public Freelancer assignFavoriteFreelancer(Long userId, Long favoriteId) {
-        Freelancer freelancer = freelancerRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Freelancer", "Id", userId));
-        return freelancerRepository.findById(favoriteId).map(
-                profile -> freelancerRepository.save(profile.addFavorite(freelancer)))
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Freelancer", "Id", favoriteId));
-    }
-
-    @Override
-    public Freelancer unassignFavoriteFreelancer(Long userId, Long favoriteId) {
-        Freelancer freelancer = freelancerRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Freelancer", "Id", userId));
-        return freelancerRepository.findById(favoriteId).map(
-                profile -> freelancerRepository.save(profile.removeFavorite(freelancer)))
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Freelancer", "Id", favoriteId));
     }
 }
