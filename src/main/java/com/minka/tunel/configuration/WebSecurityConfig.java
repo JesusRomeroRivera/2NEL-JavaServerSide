@@ -61,6 +61,7 @@ public class WebSecurityConfig extends
                 .antMatchers("/api/freelancers").permitAll()
                 .antMatchers("/api/investors").permitAll()
                 .antMatchers("/api/enterprises").permitAll()
+                .antMatchers("/api/*").permitAll()
                 .anyRequest().authenticated().and()
                 .exceptionHandling()
                 .authenticationEntryPoint(authenticationEntryPoint).and()
